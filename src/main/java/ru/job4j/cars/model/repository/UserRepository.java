@@ -86,6 +86,7 @@ public class UserRepository {
         Session session = sf.openSession();
         Query<User> query = session.createQuery(FIND_ALL_USERS_ORDER_BY_ID_QUERY, User.class);
         List<User> users = query.getResultList();
+        session.close();
         return users;
     }
 
@@ -99,6 +100,7 @@ public class UserRepository {
         Query<User> query = session.createQuery(FIND_USER_BY_ID_QUERY)
                 .setParameter("fId", id);
         Optional<User> result = Optional.ofNullable(query.uniqueResult());
+        session.close();
         return result;
     }
 
@@ -113,6 +115,7 @@ public class UserRepository {
         Query<User> query = session.createQuery(FIND_USERS_BY_LIKE_LOGIN_QUERY, User.class);
         query.setParameter("fLogin", "%" + key + "%");
         List<User> users = query.getResultList();
+        session.close();
         return users;
     }
 
@@ -127,6 +130,7 @@ public class UserRepository {
         Query<User> query = session.createQuery(FIND_USER_BY_LOGIN_QUERY);
         query.setParameter("fLogin", login);
         Optional<User> result = Optional.ofNullable(query.uniqueResult());
+        session.close();
         return result;
     }
 }
