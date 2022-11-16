@@ -99,7 +99,7 @@ public class UserRepository {
         Session session = sf.openSession();
         Query<User> query = session.createQuery(FIND_USER_BY_ID_QUERY)
                 .setParameter("fId", id);
-        Optional<User> result = Optional.ofNullable(query.uniqueResult());
+        Optional<User> result = query.uniqueResultOptional();
         session.close();
         return result;
     }
@@ -129,7 +129,7 @@ public class UserRepository {
         Session session = sf.openSession();
         Query<User> query = session.createQuery(FIND_USER_BY_LOGIN_QUERY);
         query.setParameter("fLogin", login);
-        Optional<User> result = Optional.ofNullable(query.uniqueResult());
+        Optional<User> result = query.uniqueResultOptional();
         session.close();
         return result;
     }
