@@ -14,13 +14,25 @@ import java.util.Optional;
 public class UserRepository {
 
     private static final String
-            FIND_ALL_USERS_ORDER_BY_ID_QUERY = "FROM User ORDER BY id ASC";
+            FIND_ALL_USERS_ORDER_BY_ID_QUERY = "SELECT u FROM User u ORDER BY id ASC";
 
-    private static final String FIND_USER_BY_ID_QUERY = "FROM User WHERE id = :fId";
+    private static final String FIND_USER_BY_ID_QUERY = "SELECT u FROM User u WHERE id = :fId";
 
-    private static final String FIND_USERS_BY_LIKE_LOGIN_QUERY = "FROM User WHERE login LIKE :fLogin";
+    private static final String FIND_USERS_BY_LIKE_LOGIN_QUERY = "SELECT u FROM User u WHERE login LIKE :fLogin";
 
-    private static final String FIND_USER_BY_LOGIN_QUERY = "FROM User WHERE login = :fLogin";
+    private static final String FIND_USER_BY_LOGIN_QUERY = "SELECT u FROM User u WHERE login = :fLogin";
+
+    private static final String UPDATE_USER_QUERY = """
+            UPDATE
+                User
+            SET
+                login = :fLogin,
+                password = :fPassword
+            WHERE
+                id = :fId
+            """;
+
+    private static final String DELETE_USER_QUERY = "DELETE FROM User WHERE id = :fId";
 
     private final SessionFactory sf;
 
@@ -52,7 +64,9 @@ public class UserRepository {
         try (Session session = sf.openSession()) {
             try {
                 session.beginTransaction();
-                session.update(user);
+                Query<User> query = session.createQuery(UPDATE_USER_QUERY);
+                query.setParameter("fId", user.getId());
+                query.executeUpdate();
                 session.getTransaction().commit();
             } catch (HibernateException e) {
                 session.getTransaction().rollback();
@@ -69,7 +83,9 @@ public class UserRepository {
         try (Session session = sf.openSession()) {
             try {
                 session.beginTransaction();
-                session.delete(new User(userId, null, null));
+                Query<User> query = session.createQuery(DELETE_USER_QUERY);
+                query.setParameter("fId", userId);
+                query.executeUpdate();
                 session.getTransaction().commit();
             } catch (HibernateException e) {
                 session.getTransaction().rollback();
@@ -97,7 +113,7 @@ public class UserRepository {
      */
     public Optional<User> findById(int id) {
         Session session = sf.openSession();
-        Query<User> query = session.createQuery(FIND_USER_BY_ID_QUERY)
+        Query<User> query = session.createQuery(FIND_USER_BY_ID_QUERY, User.class)
                 .setParameter("fId", id);
         Optional<User> result = query.uniqueResultOptional();
         session.close();
@@ -112,8 +128,8 @@ public class UserRepository {
      */
     public List<User> findByLikeLogin(String key) {
         Session session = sf.openSession();
-        Query<User> query = session.createQuery(FIND_USERS_BY_LIKE_LOGIN_QUERY, User.class);
-        query.setParameter("fLogin", "%" + key + "%");
+        Query<User> query = session.createQuery(FIND_USERS_BY_LIKE_LOGIN_QUERY, User.class)
+                .setParameter("fLogin", "%" + key + "%");
         List<User> users = query.getResultList();
         session.close();
         return users;
@@ -127,8 +143,8 @@ public class UserRepository {
      */
     public Optional<User> findByLogin(String login) {
         Session session = sf.openSession();
-        Query<User> query = session.createQuery(FIND_USER_BY_LOGIN_QUERY);
-        query.setParameter("fLogin", login);
+        Query<User> query = session.createQuery(FIND_USER_BY_LOGIN_QUERY, User.class)
+                .setParameter("fLogin", login);
         Optional<User> result = query.uniqueResultOptional();
         session.close();
         return result;
