@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import ru.job4j.cars.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,10 +100,17 @@ public class UserRepository {
      * @return список пользователей.
      */
     public List<User> findAllOrderById() {
-        Session session = sf.openSession();
-        Query<User> query = session.createQuery(FIND_ALL_USERS_ORDER_BY_ID_QUERY, User.class);
-        List<User> users = query.getResultList();
-        session.close();
+        List<User> users = new ArrayList<>();
+        try (Session session = sf.openSession()) {
+            try {
+                session.beginTransaction();
+                Query<User> query = session.createQuery(FIND_ALL_USERS_ORDER_BY_ID_QUERY, User.class);
+                users = query.getResultList();
+                session.getTransaction().commit();
+            } catch (HibernateException e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return users;
     }
 
@@ -112,11 +120,18 @@ public class UserRepository {
      * @return пользователь.
      */
     public Optional<User> findById(int id) {
-        Session session = sf.openSession();
-        Query<User> query = session.createQuery(FIND_USER_BY_ID_QUERY, User.class)
-                .setParameter("fId", id);
-        Optional<User> result = query.uniqueResultOptional();
-        session.close();
+        Optional<User> result = Optional.empty();
+        try (Session session = sf.openSession()) {
+            try {
+                session.beginTransaction();
+                Query<User> query = session.createQuery(FIND_USER_BY_ID_QUERY, User.class)
+                        .setParameter("fId", id);
+                result = query.uniqueResultOptional();
+                session.getTransaction().commit();
+            } catch (HibernateException e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return result;
     }
 
@@ -127,11 +142,18 @@ public class UserRepository {
      * @return список пользователей.
      */
     public List<User> findByLikeLogin(String key) {
-        Session session = sf.openSession();
-        Query<User> query = session.createQuery(FIND_USERS_BY_LIKE_LOGIN_QUERY, User.class)
-                .setParameter("fLogin", "%" + key + "%");
-        List<User> users = query.getResultList();
-        session.close();
+        List<User> users = new ArrayList<>();
+        try (Session session = sf.openSession()) {
+            try {
+                session.beginTransaction();
+                Query<User> query = session.createQuery(FIND_USERS_BY_LIKE_LOGIN_QUERY, User.class)
+                        .setParameter("fLogin", "%" + key + "%");
+                users = query.getResultList();
+                session.getTransaction().commit();
+            } catch (HibernateException e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return users;
     }
 
@@ -142,11 +164,18 @@ public class UserRepository {
      * @return Optional or user.
      */
     public Optional<User> findByLogin(String login) {
-        Session session = sf.openSession();
-        Query<User> query = session.createQuery(FIND_USER_BY_LOGIN_QUERY, User.class)
-                .setParameter("fLogin", login);
-        Optional<User> result = query.uniqueResultOptional();
-        session.close();
+        Optional<User> result = Optional.empty();
+        try (Session session = sf.openSession()) {
+            try {
+                session.beginTransaction();
+                Query<User> query = session.createQuery(FIND_USER_BY_LOGIN_QUERY, User.class)
+                        .setParameter("fLogin", login);
+                result = query.uniqueResultOptional();
+                session.getTransaction().commit();
+            } catch (HibernateException e) {
+                System.out.println(e.getMessage());
+            }
+        }
         return result;
     }
 }
