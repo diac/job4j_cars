@@ -1,80 +1,34 @@
 package ru.job4j.cars.repository;
 
-import lombok.AllArgsConstructor;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
-@AllArgsConstructor
-public class CrudRepository {
+public interface CrudRepository {
 
-    private final SessionFactory sf;
+    void run(Consumer<Session> command);
 
-    public void run(Consumer<Session> command) {
-        tx(session -> {
-            command.accept(session);
-            return null;
-        });
-    }
+    void run(String query, Map<String, Object> args);
 
-    public void run(String query, Map<String, Object> args) {
-        Consumer<Session> command = session -> {
-            var sq = session.createQuery(query);
-            for (Map.Entry<String, Object> arg : args.entrySet()) {
-                sq.setParameter(arg.getKey(), arg.getValue());
-            }
-            sq.executeUpdate();
-        };
-        run(command);
-    }
+    <T> List<T> query(String query, Class<T> cl);
 
-    public <T> List<T> query(String query, Class<T> cl) {
-        Function<Session, List<T>> command = session -> session
-                .createQuery(query, cl)
-                .list();
-        return tx(command);
-    }
+    <T> List<T> query(String query, Class<T> cl, Map<String, Object> args);
 
-    public <T> Optional<T> optional(String query, Class<T> cl, Map<String, Object> args) {
-        Function<Session, Optional<T>> command = session -> {
-            var sq = session.createQuery(query, cl);
-            for (Map.Entry<String, Object> arg : args.entrySet()) {
-                sq.setParameter(arg.getKey(), arg.getValue());
-            }
-            return Optional.ofNullable(sq.getSingleResult());
-        };
-        return tx(command);
-    }
+    <T> List<T> query(String query, Class<T> cl, Map<String, Collection<?>> collectionArgs, Map<String, Object> args);
 
-    public <T> List<T> query(String query, Class<T> cl, Map<String, Object> args) {
-        Function<Session, List<T>> command = session -> {
-            var sq = session.createQuery(query, cl);
-            for (Map.Entry<String, Object> arg : args.entrySet()) {
-                sq.setParameter(arg.getKey(), arg.getValue());
-            }
-            return sq.list();
-        };
-        return tx(command);
-    }
+    <T> Optional<T> optional(Function<Session, T> command);
 
-    public <T> T tx(Function<Session, T> command) {
-        var session = sf.openSession();
-        try (session) {
-            var tx = session.beginTransaction();
-            T rsl = command.apply(session);
-            tx.commit();
-            return rsl;
-        } catch (Exception e) {
-            var tx = session.getTransaction();
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-            throw e;
-        }
-    }
+    <T> Optional<T> optional(String query, Class<T> cl, Map<String, Object> args);
+
+    <T> T tx(Function<Session, T> command);
+
+    boolean execute(Predicate<Session> command);
+
+    boolean execute(String query, Map<String, Object> args);
 }
