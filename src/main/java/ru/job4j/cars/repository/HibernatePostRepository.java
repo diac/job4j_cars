@@ -2,6 +2,7 @@ package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
+import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
 
 import java.util.List;
@@ -20,6 +21,13 @@ public class HibernatePostRepository  implements PostRepository {
     private static final String FIND_BY_ID_QUERY = "SELECT p FROM Post p WHERE id = :fId";
 
     private static final String DELETE_QUERY = "DELETE FROM Post WHERE id = :fId";
+
+    private static final String FIND_ALL_RECENT_QUERY
+            = "SELECT p FROM Post p WHERE created BETWEEN created BETWEEN TIMESTAMP 'yesterday' AND NOW()";
+
+    private static final String FIND_ALL_WITH_PHOTO_QUERY = "SELECT p FROM Post p WHERE photo IS NOT NULL";
+
+    private static final String FIND_ALL_BY_CAR_ID_QUERY = "SELECT p FROM Post p WHERE car_id = :fCarId";
 
     private final CrudRepository crudRepository;
 
@@ -98,5 +106,40 @@ public class HibernatePostRepository  implements PostRepository {
     @Override
     public boolean delete(int id) {
         return crudRepository.execute(DELETE_QUERY, Map.of("fId", id));
+    }
+
+    /**
+     * Получить все объявления за последний день
+     *
+     * @return Список объявлений. Пустой список, если ничего не найдено
+     */
+    @Override
+    public List<Post> findAllRecent() {
+        return crudRepository.query(FIND_ALL_RECENT_QUERY, Post.class);
+    }
+
+    /**
+     * Получить все объявления с фото
+     *
+     * @return Список объявлений. Пустой список, если ничего не найдено
+     */
+    @Override
+    public List<Post> findAllWithPhoto() {
+        return crudRepository.query(FIND_ALL_WITH_PHOTO_QUERY, Post.class);
+    }
+
+    /**
+     * Получить все объявления для определенной машины
+     *
+     * @param car Машина, для которой ищутся объявления
+     * @return Список объявлений. Пустой список, если ничего не найдено
+     */
+    @Override
+    public List<Post> findAllByCar(Car car) {
+        return crudRepository.query(
+                FIND_ALL_BY_CAR_ID_QUERY,
+                Post.class,
+                Map.of("fCarId", car.getId())
+        );
     }
 }

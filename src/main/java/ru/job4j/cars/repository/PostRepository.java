@@ -1,5 +1,6 @@
 package ru.job4j.cars.repository;
 
+import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
 
 import java.util.List;
@@ -18,4 +19,10 @@ public interface PostRepository {
     boolean delete(Post post);
 
     boolean delete(int id);
+
+    List<Post> findAllRecent();
+
+    List<Post> findAllWithPhoto();
+
+    List<Post> findAllByCar(Car car);
 }
