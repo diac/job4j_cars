@@ -27,6 +27,8 @@ public class Post {
     LocalDateTime created;
     int userId;
 
+    private byte[] photo;
+
     @OneToMany
     @JoinColumn(name = "post_id")
     private List<PriceHistory> priceHistories = new ArrayList<>();
