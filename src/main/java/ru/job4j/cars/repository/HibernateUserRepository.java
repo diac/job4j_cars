@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class UserRepository {
+public class HibernateUserRepository {
 
     private static final String
             FIND_ALL_USERS_ORDER_BY_ID_QUERY = "SELECT u FROM User u ORDER BY id ASC";
