@@ -29,6 +29,10 @@ public class Post {
 
     private byte[] photo;
 
+    @ManyToOne
+    @JoinColumn(name = "car_id")
+    private Car car;
+
     @OneToMany
     @JoinColumn(name = "post_id")
     private List<PriceHistory> priceHistories = new ArrayList<>();
