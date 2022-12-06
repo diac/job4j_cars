@@ -28,7 +28,7 @@ public class Car {
     @JoinColumn(name = "engine_id")
     private Engine engine;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "history_owner",
             joinColumns = {@JoinColumn(name = "car_id", nullable = false, updatable = false)},
