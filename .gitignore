@@ -4,3 +4,4 @@ target
 /testdb.mv.db
 /testdb.trace.db
 /db/liquibase.properties
+/src/main/resources/hibernate.cfg.xml
