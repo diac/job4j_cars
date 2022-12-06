@@ -24,8 +24,11 @@ public class Post {
     private int id;
 
     private String description;
-    LocalDateTime created;
-    int userId;
+    private LocalDateTime created;
+
+    @ManyToOne
+    @JoinColumn(name = "auto_user_id")
+    private User user;
 
     private byte[] photo;
 
