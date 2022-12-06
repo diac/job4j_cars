@@ -23,7 +23,7 @@ public class HibernatePostRepository  implements PostRepository {
     private static final String DELETE_QUERY = "DELETE FROM Post WHERE id = :fId";
 
     private static final String FIND_ALL_RECENT_QUERY
-            = "SELECT p FROM Post p WHERE created BETWEEN created BETWEEN TIMESTAMP 'yesterday' AND NOW()";
+            = "SELECT p FROM Post p WHERE created BETWEEN TIMESTAMP 'yesterday' AND NOW()";
 
     private static final String FIND_ALL_WITH_PHOTO_QUERY = "SELECT p FROM Post p WHERE photo IS NOT NULL";
 
