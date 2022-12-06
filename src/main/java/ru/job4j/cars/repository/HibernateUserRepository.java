@@ -8,7 +8,9 @@ import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
-public class HibernateUserRepository {
+public class HibernateUserRepository implements UserRepository {
+
+    private static final String FIND_ALL_QUERY = "SELECT u FROM User";
 
     private static final String
             FIND_ALL_USERS_ORDER_BY_ID_QUERY = "SELECT u FROM User u ORDER BY id ASC";
@@ -23,15 +25,23 @@ public class HibernateUserRepository {
 
     private final CrudRepository crudRepository;
 
+    @Override
+    public List<User> findAll() {
+        return crudRepository.query(FIND_ALL_QUERY, User.class);
+    }
+
     /**
      * Сохранить в базе.
      *
      * @param user пользователь.
      * @return пользователь с id.
      */
-    public User create(User user) {
-        crudRepository.run(session -> session.persist(user));
-        return user;
+    @Override
+    public Optional<User> add(User user) {
+        return crudRepository.optional(session -> {
+            session.persist(user);
+            return user;
+        });
     }
 
     /**
@@ -39,8 +49,12 @@ public class HibernateUserRepository {
      *
      * @param user пользователь.
      */
-    public void update(User user) {
-        crudRepository.run(session -> session.merge(user));
+    @Override
+    public boolean update(User user) {
+        return crudRepository.execute(session -> {
+            session.merge(user);
+            return true;
+        });
     }
 
     /**
@@ -48,8 +62,19 @@ public class HibernateUserRepository {
      *
      * @param userId ID
      */
-    public void delete(int userId) {
-        crudRepository.run(DELETE_USER_QUERY, Map.of("fId", userId));
+    @Override
+    public boolean delete(int userId) {
+        return crudRepository.execute(DELETE_USER_QUERY, Map.of("fId", userId));
+    }
+
+    /**
+     * Удалить пользователя по id.
+     *
+     * @param user Пользователь, которого нужно удалить
+     */
+    @Override
+    public boolean delete(User user) {
+        return crudRepository.execute(DELETE_USER_QUERY, Map.of("fId", user.getId()));
     }
 
     /**
