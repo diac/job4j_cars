@@ -53,6 +53,7 @@ public class HibernateUserRepository implements UserRepository {
      * Обновить в базе пользователя.
      *
      * @param user пользователь.
+     * @return true в случае удачного обновления. Иначе -- false
      */
     @Override
     public boolean update(User user) {
@@ -66,6 +67,7 @@ public class HibernateUserRepository implements UserRepository {
      * Удалить пользователя по id.
      *
      * @param userId ID
+     * @return true в случае удачного удаления. Иначе -- false
      */
     @Override
     public boolean delete(int userId) {
@@ -73,9 +75,10 @@ public class HibernateUserRepository implements UserRepository {
     }
 
     /**
-     * Удалить пользователя по id.
+     * Удалить пользователя.
      *
      * @param user Пользователь, которого нужно удалить
+     * @return true в случае удачного удаления. Иначе -- fals
      */
     @Override
     public boolean delete(User user) {
@@ -83,7 +86,7 @@ public class HibernateUserRepository implements UserRepository {
     }
 
     /**
-     * Список пользователь отсортированных по id.
+     * Список пользователей, отсортированных по id.
      *
      * @return список пользователей.
      */
