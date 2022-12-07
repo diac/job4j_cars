@@ -125,4 +125,15 @@ public class SimpleUserService implements UserService {
     public Optional<User> findByLoginAndPassword(String login, String password) {
         return userRepository.findByLoginAndPassword(login, password);
     }
+
+    /**
+     * Зарегистрировать нового пользователя в системе путем добавления нового объекта в репозиторий из объекта User
+     *
+     * @param user Объект User, который нужно добавить в репозиторий
+     * @return Optional для объекта User, если удалось добавить этот объект в репозиторий. Иначе -- Optional.empty()
+     */
+    @Override
+    public Optional<User> register(User user) {
+        return userRepository.add(user);
+    }
 }
