@@ -21,6 +21,9 @@ public class HibernateUserRepository implements UserRepository {
 
     private static final String FIND_USER_BY_LOGIN_QUERY = "SELECT u FROM User u WHERE login = :fLogin";
 
+    private static final String FIND_BY_LOGIN_AND_PASSWORD_QUERY
+            = "SELECT u FROM User u WHERE login = :fLogin AND password = :fPassword";
+
     private static final String DELETE_USER_QUERY = "DELETE FROM User WHERE id = :fId";
 
     private final CrudRepository crudRepository;
@@ -132,6 +135,26 @@ public class HibernateUserRepository implements UserRepository {
                 FIND_USER_BY_LOGIN_QUERY,
                 User.class,
                 Map.of("fLogin", login)
+        );
+    }
+
+    /**
+     * Получить один объект User из БД по значению полей login и password
+     *
+     * @param login    Логин пользователя в системе
+     * @param password Пароль пользователя в системе
+     * @return Optional для объекта User, если в БД существует запись для переданных значений login и password.
+     * Иначе -- Optional.empty()
+     */
+    @Override
+    public Optional<User> findByLoginAndPassword(String login, String password) {
+        return crudRepository.optional(
+                FIND_BY_LOGIN_AND_PASSWORD_QUERY,
+                User.class,
+                Map.of(
+                        "fLogin", login,
+                        "fPassword", password
+                )
         );
     }
 }
