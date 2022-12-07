@@ -25,6 +25,11 @@ public class HibernateUserRepository implements UserRepository {
 
     private final CrudRepository crudRepository;
 
+    /**
+     * Получить список всех пользователей
+     *
+     * @return Список пользователей. Пустой список, если ничего не найдено.
+     */
     @Override
     public List<User> findAll() {
         return crudRepository.query(FIND_ALL_QUERY, User.class);
