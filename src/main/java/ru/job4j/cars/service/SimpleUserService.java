@@ -112,4 +112,17 @@ public class SimpleUserService implements UserService {
     public Optional<User> findByLogin(String login) {
         return userRepository.findByLogin(login);
     }
+
+    /**
+     * Получить один объект User из репозитория по значениям полей login и password
+     *
+     * @param login Значение поля login объекта User
+     * @param password Значение поля password объекта User
+     * @return Optional для объекта User, если в репозитории существует объект для
+     * переданных значений полей login и password. Иначе -- Optional.empty()
+     */
+    @Override
+    public Optional<User> findByLoginAndPassword(String login, String password) {
+        return userRepository.findByLoginAndPassword(login, password);
+    }
 }
