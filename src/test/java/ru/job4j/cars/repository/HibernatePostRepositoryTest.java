@@ -9,7 +9,9 @@ import ru.job4j.cars.model.Engine;
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.model.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -119,8 +121,10 @@ public class HibernatePostRepositoryTest {
     }
 
     @Test
-    public void whenFindAllRecent() {
+    public void whenFindAllInDateRange() {
+        LocalDateTime midnight = LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT);
         LocalDateTime now = LocalDateTime.now();
+        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
         LocalDateTime twoDaysAgo = now.minusDays(2);
         String value = String.valueOf(System.currentTimeMillis());
         Engine engine = new Engine(0, value);
@@ -129,11 +133,11 @@ public class HibernatePostRepositoryTest {
         carRepository.add(car);
         User user = new User(0, value, value, new ArrayList<>());
         userRepository.add(user);
-        Post newPost = new Post(0, value + "_new_post", now, user, null, car, new ArrayList<>());
+        Post newPost = new Post(0, value + "_new_post", midnight, user, null, car, new ArrayList<>());
         Post oldPost = new Post(0, value + "_old_post", twoDaysAgo, user, null, car, new ArrayList<>());
         postRepository.add(newPost);
         postRepository.add(oldPost);
-        List<Post> recentPosts = postRepository.findAllRecent();
+        List<Post> recentPosts = postRepository.findAllInDateRange(yesterday, now);
         assertThat(recentPosts.contains(newPost)).isTrue();
         assertThat(recentPosts.contains(oldPost)).isFalse();
     }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,8 +23,8 @@ public class HibernatePostRepository  implements PostRepository {
 
     private static final String DELETE_QUERY = "DELETE FROM Post WHERE id = :fId";
 
-    private static final String FIND_ALL_RECENT_QUERY
-            = "SELECT p FROM Post p WHERE created BETWEEN current_date - 1 AND NOW()";
+    private static final String FIND_ALL_IN_DATE_RANGE_QUERY
+            = "SELECT p FROM Post p WHERE created BETWEEN :fDateFrom AND :fDateTo";
 
     private static final String FIND_ALL_WITH_PHOTO_QUERY = "SELECT p FROM Post p WHERE photo IS NOT NULL";
 
@@ -114,8 +115,15 @@ public class HibernatePostRepository  implements PostRepository {
      * @return Список объявлений. Пустой список, если ничего не найдено
      */
     @Override
-    public List<Post> findAllRecent() {
-        return crudRepository.query(FIND_ALL_RECENT_QUERY, Post.class);
+    public List<Post> findAllInDateRange(LocalDateTime dateFrom, LocalDateTime dateTo) {
+        return crudRepository.query(
+                FIND_ALL_IN_DATE_RANGE_QUERY,
+                Post.class,
+                Map.of(
+                        "fDateFrom", dateFrom,
+                        "fDateTo", dateTo
+                )
+        );
     }
 
     /**

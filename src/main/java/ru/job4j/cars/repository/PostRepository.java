@@ -3,6 +3,7 @@ package ru.job4j.cars.repository;
 import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public interface PostRepository {
 
     boolean delete(int id);
 
-    List<Post> findAllRecent();
+    List<Post> findAllInDateRange(LocalDateTime dateFrom, LocalDateTime dateTo);
 
     List<Post> findAllWithPhoto();
 
