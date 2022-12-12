@@ -22,5 +22,6 @@
         <mapping class="ru.job4j.cars.model.BodyStyle" />
         <mapping class="ru.job4j.cars.model.ExteriorColor" />
         <mapping class="ru.job4j.cars.model.TransmissionType" />
+        <mapping class="ru.job4j.cars.model.Drivetrain" />
     </session-factory>
 </hibernate-configuration>
