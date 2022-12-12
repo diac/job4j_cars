@@ -8,6 +8,9 @@ import ru.job4j.cars.repository.BodyStyleRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Сервис, осуществляющий доступ к данным объектов модели BodyStyle в репозитории
+ */
 @Service
 @AllArgsConstructor
 public class SimpleBodyStyleService implements BodyStyleService {
@@ -27,7 +30,7 @@ public class SimpleBodyStyleService implements BodyStyleService {
     /**
      * Найти тип кузова по ID
      *
-     * @return тип кузова.
+     * @return тип кузова
      */
     @Override
     public Optional<BodyStyle> findById(int id) {
@@ -38,7 +41,7 @@ public class SimpleBodyStyleService implements BodyStyleService {
      * Сохранить тип кузова
      *
      * @param bodyStyle тип кузова
-     * @return пользователь с id
+     * @return тип кузова с id
      */
     @Override
     public Optional<BodyStyle> add(BodyStyle bodyStyle) {
