@@ -20,5 +20,6 @@
         <mapping class="ru.job4j.cars.model.Driver" />
         <mapping class="ru.job4j.cars.model.Post" />
         <mapping class="ru.job4j.cars.model.User" />
+        <mapping class="ru.job4j.cars.model.BodyStyle" />
     </session-factory>
 </hibernate-configuration>
