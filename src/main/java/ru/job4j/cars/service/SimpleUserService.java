@@ -63,7 +63,7 @@ public class SimpleUserService implements UserService {
      * Удалить пользователя.
      *
      * @param user Пользователь, которого нужно удалить
-     * @return true в случае удачного удаления. Иначе -- fals
+     * @return true в случае удачного удаления. Иначе -- false
      */
     @Override
     public boolean delete(User user) {
