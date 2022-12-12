@@ -4,10 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.job4j.cars.config.DataSourceConfig;
-import ru.job4j.cars.model.Car;
-import ru.job4j.cars.model.Engine;
-import ru.job4j.cars.model.Post;
-import ru.job4j.cars.model.User;
+import ru.job4j.cars.enumeration.SteeringWheelSide;
+import ru.job4j.cars.model.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,7 +23,11 @@ import static org.assertj.core.api.Assertions.assertThat;
         HibernatePostRepository.class,
         HibernateCarRepository.class,
         HibernateUserRepository.class,
-        HibernateEngineRepository.class
+        HibernateEngineRepository.class,
+        HibernateBodyStyleRepository.class,
+        HibernateExteriorColorRepository.class,
+        HibernateTransmissionTypeRepository.class,
+        HibernateDrivetrainRepository.class
 })
 public class HibernatePostRepositoryTest {
 
@@ -41,16 +43,20 @@ public class HibernatePostRepositoryTest {
     @Autowired
     private EngineRepository engineRepository;
 
+    @Autowired
+    private BodyStyleRepository bodyStyleRepository;
+
+    @Autowired
+    private ExteriorColorRepository exteriorColorRepository;
+
+    @Autowired
+    private TransmissionTypeRepository transmissionTypeRepository;
+
+    @Autowired DrivetrainRepository drivetrainRepository;
+
     @Test
     public void whenCreate() {
-        String value = String.valueOf(System.currentTimeMillis());
-        Engine engine = new Engine(0, value);
-        engineRepository.add(engine);
-        Car car = new Car(0, value, engine, new HashSet<>());
-        carRepository.add(car);
-        User user = new User(0, value, value, new ArrayList<>());
-        userRepository.add(user);
-        Post post = new Post(0, value, LocalDateTime.now(), user, null, car, new ArrayList<>());
+        Post post = makePost();
         postRepository.add(post);
         Post postInDb = postRepository.findById(post.getId()).orElse(new Post());
         assertThat(postInDb).isEqualTo(post);
@@ -62,10 +68,9 @@ public class HibernatePostRepositoryTest {
     @Test
     public void whenUpdate() {
         String value = String.valueOf(System.currentTimeMillis());
-        Engine engine = new Engine(0, value);
-        engineRepository.add(engine);
-        Car car1 = new Car(0, value, engine, new HashSet<>());
-        Car car2 = new Car(0, value + "_2", engine, new HashSet<>());
+        Car car1 = makeCar();
+        Car car2 = makeCar();
+        car2.setName(car1.getName() + "_2");
         carRepository.add(car1);
         carRepository.add(car2);
         User user1 = new User(0, value, value, new ArrayList<>());
@@ -88,14 +93,7 @@ public class HibernatePostRepositoryTest {
 
     @Test
     public void whenDelete() {
-        String value = String.valueOf(System.currentTimeMillis());
-        Engine engine = new Engine(0, value);
-        engineRepository.add(engine);
-        Car car = new Car(0, value, engine, new HashSet<>());
-        carRepository.add(car);
-        User user = new User(0, value, value, new ArrayList<>());
-        userRepository.add(user);
-        Post post = new Post(0, value, LocalDateTime.now(), user, null, car, new ArrayList<>());
+        Post post = makePost();
         postRepository.add(post);
         int postId = post.getId();
         postRepository.delete(post);
@@ -105,14 +103,7 @@ public class HibernatePostRepositoryTest {
 
     @Test
     public void whenDeleteById() {
-        String value = String.valueOf(System.currentTimeMillis());
-        Engine engine = new Engine(0, value);
-        engineRepository.add(engine);
-        Car car = new Car(0, value, engine, new HashSet<>());
-        carRepository.add(car);
-        User user = new User(0, value, value, new ArrayList<>());
-        userRepository.add(user);
-        Post post = new Post(0, value, LocalDateTime.now(), user, null, car, new ArrayList<>());
+        Post post = makePost();
         postRepository.add(post);
         int postId = post.getId();
         postRepository.delete(postId);
@@ -127,9 +118,7 @@ public class HibernatePostRepositoryTest {
         LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
         LocalDateTime twoDaysAgo = now.minusDays(2);
         String value = String.valueOf(System.currentTimeMillis());
-        Engine engine = new Engine(0, value);
-        engineRepository.add(engine);
-        Car car = new Car(0, value, engine, new HashSet<>());
+        Car car = makeCar();
         carRepository.add(car);
         User user = new User(0, value, value, new ArrayList<>());
         userRepository.add(user);
@@ -145,9 +134,7 @@ public class HibernatePostRepositoryTest {
     @Test
     public void whenFindAllWithPhoto() {
         String value = String.valueOf(System.currentTimeMillis());
-        Engine engine = new Engine(0, value);
-        engineRepository.add(engine);
-        Car car = new Car(0, value, engine, new HashSet<>());
+        Car car = makeCar();
         carRepository.add(car);
         User user = new User(0, value, value, new ArrayList<>());
         userRepository.add(user);
@@ -178,16 +165,52 @@ public class HibernatePostRepositoryTest {
 
     @Test
     public void whenFindAllByCar() {
-        String value = String.valueOf(System.currentTimeMillis());
-        Engine engine = new Engine(0, value);
-        engineRepository.add(engine);
-        Car car = new Car(0, value, engine, new HashSet<>());
+        Car car = makeCar();
         carRepository.add(car);
-        User user = new User(0, value, value, new ArrayList<>());
-        userRepository.add(user);
-        Post post = new Post(0, value, LocalDateTime.now(), user, null, car, new ArrayList<>());
+        Post post = makePost(car);
         postRepository.add(post);
         List<Post> posts = postRepository.findAllByCar(car);
         assertThat(posts.contains(post)).isTrue();
+    }
+
+    private Car makeCar() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Engine engine = new Engine(0, value);
+        engineRepository.add(engine);
+        BodyStyle bodyStyle = new BodyStyle(0, value);
+        bodyStyleRepository.add(bodyStyle);
+        ExteriorColor exteriorColor = new ExteriorColor(0, value);
+        exteriorColorRepository.add(exteriorColor);
+        TransmissionType transmissionType = new TransmissionType(0, value);
+        transmissionTypeRepository.add(transmissionType);
+        Drivetrain drivetrain = new Drivetrain(0, value);
+        drivetrainRepository.add(drivetrain);
+        return new Car(
+                0,
+                value,
+                engine,
+                bodyStyle,
+                exteriorColor,
+                transmissionType,
+                drivetrain,
+                SteeringWheelSide.LEFT,
+                new HashSet<>()
+        );
+    }
+
+    private Post makePost() {
+        String value = String.valueOf(System.currentTimeMillis());
+        Car car = makeCar();
+        carRepository.add(car);
+        User user = new User(0, value, value, new ArrayList<>());
+        userRepository.add(user);
+        return new Post(0, value, LocalDateTime.now(), user, null, car, new ArrayList<>());
+    }
+
+    private Post makePost(Car car) {
+        String value = String.valueOf(System.currentTimeMillis());
+        User user = new User(0, value, value, new ArrayList<>());
+        userRepository.add(user);
+        return new Post(0, value, LocalDateTime.now(), user, null, car, new ArrayList<>());
     }
 }

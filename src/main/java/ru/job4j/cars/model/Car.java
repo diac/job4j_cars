@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import ru.job4j.cars.enumeration.SteeringWheelSide;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -27,6 +28,26 @@ public class Car {
     @ManyToOne
     @JoinColumn(name = "engine_id")
     private Engine engine;
+
+    @ManyToOne
+    @JoinColumn(name = "body_style_id")
+    private BodyStyle bodyStyle;
+
+    @ManyToOne
+    @JoinColumn(name = "exterior_color_id")
+    private ExteriorColor exteriorColor;
+
+    @ManyToOne
+    @JoinColumn(name = "transmission_type_id")
+    private TransmissionType transmissionType;
+
+    @ManyToOne
+    @JoinColumn(name = "drivetrain_id")
+    private Drivetrain drivetrain;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "steering_wheel_side")
+    private SteeringWheelSide steeringWheelSide;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
