@@ -73,8 +73,8 @@ public class HibernateEngineRepository implements EngineRepository {
     @Override
     public boolean update(Engine engine) {
         return crudRepository.execute(session -> {
-            session.merge(engine);
-            return true;
+            Engine merged = (Engine) session.merge(engine);
+            return engine.equals(merged);
         });
     }
 

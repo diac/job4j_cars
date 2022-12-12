@@ -72,8 +72,8 @@ public class HibernateTransmissionTypeRepository implements TransmissionTypeRepo
     @Override
     public boolean update(TransmissionType transmissionType) {
         return crudRepository.execute(session -> {
-            session.merge(transmissionType);
-            return true;
+            TransmissionType merged = (TransmissionType) session.merge(transmissionType);
+            return transmissionType.equals(merged);
         });
     }
 

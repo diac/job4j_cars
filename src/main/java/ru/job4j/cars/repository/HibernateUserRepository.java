@@ -63,8 +63,8 @@ public class HibernateUserRepository implements UserRepository {
     @Override
     public boolean update(User user) {
         return crudRepository.execute(session -> {
-            session.merge(user);
-            return true;
+            User merged = (User) session.merge(user);
+            return user.equals(merged);
         });
     }
 

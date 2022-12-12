@@ -73,8 +73,8 @@ public class HibernateDriverRepository implements DriverRepository {
     @Override
     public boolean update(Driver driver) {
         return crudRepository.execute(session -> {
-            session.merge(driver);
-            return true;
+            Driver merged = (Driver) session.merge(driver);
+            return driver.equals(merged);
         });
     }
 

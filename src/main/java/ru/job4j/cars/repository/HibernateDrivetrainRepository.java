@@ -71,8 +71,8 @@ public class HibernateDrivetrainRepository implements DrivetrainRepository {
     @Override
     public boolean update(Drivetrain drivetrain) {
         return crudRepository.execute(session -> {
-            Object merged = session.merge(drivetrain);
-            return merged.equals(drivetrain);
+            Drivetrain merged = (Drivetrain) session.merge(drivetrain);
+            return drivetrain.equals(merged);
         });
     }
 

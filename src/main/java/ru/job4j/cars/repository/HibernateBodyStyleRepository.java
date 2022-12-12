@@ -71,8 +71,8 @@ public class HibernateBodyStyleRepository implements BodyStyleRepository {
     @Override
     public boolean update(BodyStyle bodyStyle) {
         return crudRepository.execute(session -> {
-            session.merge(bodyStyle);
-            return true;
+            BodyStyle merged = (BodyStyle) session.merge(bodyStyle);
+            return bodyStyle.equals(merged);
         });
     }
 

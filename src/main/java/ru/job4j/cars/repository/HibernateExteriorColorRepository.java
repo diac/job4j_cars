@@ -74,8 +74,8 @@ public class HibernateExteriorColorRepository implements ExteriorColorRepository
     @Override
     public boolean update(ExteriorColor exteriorColor) {
         return crudRepository.execute(session -> {
-            session.merge(exteriorColor);
-            return true;
+            ExteriorColor merged = (ExteriorColor) session.merge(exteriorColor);
+            return exteriorColor.equals(merged);
         });
     }
 

@@ -73,8 +73,8 @@ public class HibernateCarRepository implements CarRepository {
     @Override
     public boolean update(Car car) {
         return crudRepository.execute(session -> {
-            session.merge(car);
-            return true;
+            Car merged = (Car) session.merge(car);
+            return car.equals(merged);
         });
     }
 

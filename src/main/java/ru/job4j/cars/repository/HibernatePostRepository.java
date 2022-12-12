@@ -82,8 +82,8 @@ public class HibernatePostRepository  implements PostRepository {
     @Override
     public boolean update(Post post) {
         return crudRepository.execute(session -> {
-            session.merge(post);
-            return true;
+            Post merged = (Post) session.merge(post);
+            return post.equals(merged);
         });
     }
 
