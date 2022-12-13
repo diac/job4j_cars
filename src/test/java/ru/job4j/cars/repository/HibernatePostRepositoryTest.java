@@ -23,11 +23,13 @@ import static org.assertj.core.api.Assertions.assertThat;
         HibernatePostRepository.class,
         HibernateCarRepository.class,
         HibernateUserRepository.class,
-        HibernateEngineRepository.class,
         HibernateBodyStyleRepository.class,
         HibernateExteriorColorRepository.class,
         HibernateTransmissionTypeRepository.class,
-        HibernateDrivetrainRepository.class
+        HibernateDrivetrainRepository.class,
+        HibernateEngineTypeRepository.class,
+        HibernateEngineVolumeRepository.class,
+        HibernateBrandRepository.class
 })
 public class HibernatePostRepositoryTest {
 
@@ -41,9 +43,6 @@ public class HibernatePostRepositoryTest {
     private UserRepository userRepository;
 
     @Autowired
-    private EngineRepository engineRepository;
-
-    @Autowired
     private BodyStyleRepository bodyStyleRepository;
 
     @Autowired
@@ -52,7 +51,17 @@ public class HibernatePostRepositoryTest {
     @Autowired
     private TransmissionTypeRepository transmissionTypeRepository;
 
-    @Autowired DrivetrainRepository drivetrainRepository;
+    @Autowired
+    private DrivetrainRepository drivetrainRepository;
+
+    @Autowired
+    private EngineTypeRepository engineTypeRepository;
+
+    @Autowired
+    private EngineVolumeRepository engineVolumeRepository;
+
+    @Autowired
+    private BrandRepository brandRepository;
 
     @Test
     public void whenCreate() {
@@ -70,7 +79,6 @@ public class HibernatePostRepositoryTest {
         String value = String.valueOf(System.currentTimeMillis());
         Car car1 = makeCar();
         Car car2 = makeCar();
-        car2.setName(car1.getName() + "_2");
         carRepository.add(car1);
         carRepository.add(car2);
         User user1 = new User(0, value, value, new ArrayList<>());
@@ -175,8 +183,6 @@ public class HibernatePostRepositoryTest {
 
     private Car makeCar() {
         String value = String.valueOf(System.currentTimeMillis());
-        Engine engine = new Engine(0, value);
-        engineRepository.add(engine);
         BodyStyle bodyStyle = new BodyStyle(0, value);
         bodyStyleRepository.add(bodyStyle);
         ExteriorColor exteriorColor = new ExteriorColor(0, value);
@@ -185,15 +191,25 @@ public class HibernatePostRepositoryTest {
         transmissionTypeRepository.add(transmissionType);
         Drivetrain drivetrain = new Drivetrain(0, value);
         drivetrainRepository.add(drivetrain);
+        EngineType engineType = new EngineType(0, value);
+        engineTypeRepository.add(engineType);
+        EngineVolume engineVolume = new EngineVolume(0, value);
+        engineVolumeRepository.add(engineVolume);
+        Brand brand = new Brand(0, value);
+        brandRepository.add(brand);
         return new Car(
                 0,
-                value,
-                engine,
                 bodyStyle,
                 exteriorColor,
                 transmissionType,
                 drivetrain,
                 SteeringWheelSide.LEFT,
+                value,
+                engineType,
+                engineVolume,
+                brand,
+                1000,
+                2020,
                 new HashSet<>()
         );
     }

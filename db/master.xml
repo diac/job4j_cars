@@ -32,4 +32,5 @@
     <include file="scripts/025_dml_insert_engine_volumes.sql" relativeToChangelogFile="true"/>
     <include file="scripts/026_ddl_create_table_brand.sql" relativeToChangelogFile="true"/>
     <include file="scripts/027_dml_insert_brand.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/028_ddl_alter_table_car.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

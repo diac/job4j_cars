@@ -16,19 +16,18 @@ import static org.assertj.core.api.Assertions.assertThat;
         DataSourceConfig.class,
         HibernateCrudRepository.class,
         HibernateCarRepository.class,
-        HibernateEngineRepository.class,
         HibernateBodyStyleRepository.class,
         HibernateExteriorColorRepository.class,
         HibernateTransmissionTypeRepository.class,
-        HibernateDrivetrainRepository.class
+        HibernateDrivetrainRepository.class,
+        HibernateEngineTypeRepository.class,
+        HibernateEngineVolumeRepository.class,
+        HibernateBrandRepository.class
 })
 public class HibernateCarRepositoryTest {
 
     @Autowired
     private CarRepository carRepository;
-
-    @Autowired
-    private EngineRepository engineRepository;
 
     @Autowired
     private BodyStyleRepository bodyStyleRepository;
@@ -39,13 +38,20 @@ public class HibernateCarRepositoryTest {
     @Autowired
     private TransmissionTypeRepository transmissionTypeRepository;
 
-    @Autowired DrivetrainRepository drivetrainRepository;
+    @Autowired
+    private DrivetrainRepository drivetrainRepository;
+
+    @Autowired
+    private EngineTypeRepository engineTypeRepository;
+
+    @Autowired
+    private EngineVolumeRepository engineVolumeRepository;
+
+    @Autowired
+    private BrandRepository brandRepository;
 
     @Test
     public void whenCreate() {
-        String value = String.valueOf(System.currentTimeMillis());
-        Engine engine = new Engine(0, value);
-        engineRepository.add(engine);
         Car car = makeCar();
         carRepository.add(car);
         Car carInDb = carRepository.findById(car.getId())
@@ -55,27 +61,41 @@ public class HibernateCarRepositoryTest {
 
     @Test
     public void whenUpdate() {
-        String value = String.valueOf(System.currentTimeMillis());
-        Engine engine1 = new Engine(0, value);
-        Engine engine2 = new Engine(0, value + "_2");
-        engineRepository.add(engine1);
-        engineRepository.add(engine2);
-        Car car = makeCar();
-        carRepository.add(car);
-        car.setName(car.getName() + "_updated");
-        car.setEngine(engine2);
-        carRepository.update(car);
-        Car carInDb = carRepository.findById(car.getId()).orElse(new Car());
-        assertThat(carInDb).isEqualTo(car);
-        assertThat(carInDb.getName()).isEqualTo(car.getName());
-        assertThat(carInDb.getEngine()).isEqualTo(car.getEngine());
+        Car carInitial = makeCar();
+        Car carDifferent = makeCar();
+        carRepository.add(carInitial);
+        carInitial.setBodyStyle(carDifferent.getBodyStyle());
+        carInitial.setExteriorColor(carDifferent.getExteriorColor());
+        carInitial.setTransmissionType(carDifferent.getTransmissionType());
+        carInitial.setDrivetrain(carDifferent.getDrivetrain());
+        carInitial.setSteeringWheelSide(SteeringWheelSide.RIGHT);
+        carInitial.setModelName(carDifferent.getModelName());
+        carInitial.setEngineType(carDifferent.getEngineType());
+        carInitial.setEngineVolume(carDifferent.getEngineVolume());
+        carInitial.setBrand(carDifferent.getBrand());
+        int newHorsepower = carInitial.getHorsepower() + 500;
+        int newProductionYear = carInitial.getProductionYear() + 1;
+        carInitial.setHorsepower(newHorsepower);
+        carInitial.setProductionYear(newProductionYear);
+        boolean success = carRepository.update(carInitial);
+        Car carInDb = carRepository.findById(carInitial.getId()).orElse(new Car());
+        assertThat(success).isTrue();
+        assertThat(carInDb).isEqualTo(carInitial);
+        assertThat(carInDb.getBodyStyle()).isEqualTo(carInitial.getBodyStyle());
+        assertThat(carInDb.getExteriorColor()).isEqualTo(carInitial.getExteriorColor());
+        assertThat(carInDb.getTransmissionType()).isEqualTo(carInitial.getTransmissionType());
+        assertThat(carInDb.getDrivetrain()).isEqualTo(carInitial.getDrivetrain());
+        assertThat(carInDb.getSteeringWheelSide()).isEqualTo(SteeringWheelSide.RIGHT);
+        assertThat(carInDb.getModelName()).isEqualTo(carInitial.getModelName());
+        assertThat(carInDb.getEngineType()).isEqualTo(carInitial.getEngineType());
+        assertThat(carInDb.getEngineVolume()).isEqualTo(carInitial.getEngineVolume());
+        assertThat(carInDb.getBrand()).isEqualTo(carInitial.getBrand());
+        assertThat(carInDb.getHorsepower()).isEqualTo(carInitial.getHorsepower());
+        assertThat(carInDb.getProductionYear()).isEqualTo(carInitial.getProductionYear());
     }
 
     @Test
     public void whenDelete() {
-        String value = String.valueOf(System.currentTimeMillis());
-        Engine engine = new Engine(0, value);
-        engineRepository.add(engine);
         Car car = makeCar();
         carRepository.add(car);
         int carId = car.getId();
@@ -86,9 +106,6 @@ public class HibernateCarRepositoryTest {
 
     @Test
     public void whenDeleteById() {
-        String value = String.valueOf(System.currentTimeMillis());
-        Engine engine = new Engine(0, value);
-        engineRepository.add(engine);
         Car car = makeCar();
         carRepository.add(car);
         int carId = car.getId();
@@ -99,8 +116,6 @@ public class HibernateCarRepositoryTest {
 
     private Car makeCar() {
         String value = String.valueOf(System.currentTimeMillis());
-        Engine engine = new Engine(0, value);
-        engineRepository.add(engine);
         BodyStyle bodyStyle = new BodyStyle(0, value);
         bodyStyleRepository.add(bodyStyle);
         ExteriorColor exteriorColor = new ExteriorColor(0, value);
@@ -109,15 +124,25 @@ public class HibernateCarRepositoryTest {
         transmissionTypeRepository.add(transmissionType);
         Drivetrain drivetrain = new Drivetrain(0, value);
         drivetrainRepository.add(drivetrain);
+        EngineType engineType = new EngineType(0, value);
+        engineTypeRepository.add(engineType);
+        EngineVolume engineVolume = new EngineVolume(0, value);
+        engineVolumeRepository.add(engineVolume);
+        Brand brand = new Brand(0, value);
+        brandRepository.add(brand);
         return new Car(
                 0,
-                value,
-                engine,
                 bodyStyle,
                 exteriorColor,
                 transmissionType,
                 drivetrain,
                 SteeringWheelSide.LEFT,
+                value,
+                engineType,
+                engineVolume,
+                brand,
+                1000,
+                2020,
                 new HashSet<>()
         );
     }

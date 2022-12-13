@@ -23,12 +23,6 @@ public class Car {
     @EqualsAndHashCode.Include
     private int id;
 
-    private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "engine_id")
-    private Engine engine;
-
     @ManyToOne
     @JoinColumn(name = "body_style_id")
     private BodyStyle bodyStyle;
@@ -48,6 +42,27 @@ public class Car {
     @Enumerated(EnumType.STRING)
     @Column(name = "steering_wheel_side")
     private SteeringWheelSide steeringWheelSide;
+
+    @Column(name = "model_name")
+    private String modelName;
+
+    @ManyToOne
+    @JoinColumn(name = "engine_type_id")
+    private EngineType engineType;
+
+    @ManyToOne
+    @JoinColumn(name = "engine_volume_id")
+    private EngineVolume engineVolume;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
+    @Column(name = "horsepower")
+    private int horsepower;
+
+    @Column(name = "production_year")
+    private int productionYear;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
