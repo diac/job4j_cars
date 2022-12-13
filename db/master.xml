@@ -30,4 +30,6 @@
     <include file="scripts/023_dml_insert_engine_types.sql" relativeToChangelogFile="true"/>
     <include file="scripts/024_create_table_engine_volume.sql" relativeToChangelogFile="true"/>
     <include file="scripts/025_dml_insert_engine_volumes.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/026_ddl_create_table_brand.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/027_dml_insert_brand.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

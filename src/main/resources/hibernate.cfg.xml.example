@@ -26,5 +26,6 @@
         <mapping class="ru.job4j.cars.model.Drivetrain" />
         <mapping class="ru.job4j.cars.model.EngineType" />
         <mapping class="ru.job4j.cars.model.EngineVolume" />
+        <mapping class="ru.job4j.cars.model.Brand" />
     </session-factory>
 </hibernate-configuration>
