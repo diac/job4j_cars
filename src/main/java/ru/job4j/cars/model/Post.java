@@ -32,6 +32,8 @@ public class Post {
 
     private byte[] photo;
 
+    private boolean available;
+
     @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
