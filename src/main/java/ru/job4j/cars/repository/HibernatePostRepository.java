@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 @Repository
 @AllArgsConstructor
-public class HibernatePostRepository  implements PostRepository {
+public class HibernatePostRepository implements PostRepository {
 
     private static final String FIND_ALL_QUERY = "SELECT p FROM Post p";
 
@@ -110,8 +110,10 @@ public class HibernatePostRepository  implements PostRepository {
     }
 
     /**
-     * Получить все объявления за последний день
+     * Найти все объявления в диапазоне дат
      *
+     * @param dateFrom Минимальное значение диапазона дат
+     * @param dateTo   Максимальное значение диапазона дат
      * @return Список объявлений. Пустой список, если ничего не найдено
      */
     @Override
