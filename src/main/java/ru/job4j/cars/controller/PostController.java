@@ -1,12 +1,14 @@
 package ru.job4j.cars.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.job4j.cars.enumeration.SteeringWheelSide;
@@ -14,6 +16,8 @@ import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
 import ru.job4j.cars.model.User;
 import ru.job4j.cars.service.*;
+import ru.job4j.cars.util.Cars;
+import ru.job4j.cars.util.DateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -81,7 +85,7 @@ public class PostController {
                     "errorMessage",
                     "Не удалось сохранить данные автомобиля"
             );
-            return "redirect:/posts";
+            return "redirect:/my_posts";
         }
         post.setCar(carInDb.get());
         post.setPhoto(photoUpload.getBytes());
@@ -93,9 +97,29 @@ public class PostController {
                     "Не удалось сохранить данные объявления"
             );
         }
-        return "redirect:/posts";
+        return "redirect:/my_posts";
     }
 
+    @GetMapping("/my_posts")
+    public String userPosts(Model model, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        model.addAttribute("posts", postService.findAllByUserId(user.getId()));
+        model.addAttribute("carDisplayNameHelper", Cars.displayNameHelper());
+        model.addAttribute("dateFormat", DateFormat.defaultFormatter());
+        return "posts/myPosts";
+    }
+
+    @GetMapping("/posts/photo/{postId}")
+    public ResponseEntity<Resource> postPhoto(@PathVariable("postId") Integer postId) {
+        ResponseEntity<Resource> responseEntity;
+        Post post = postService.findById(postId).orElse(new Post());
+        responseEntity = ResponseEntity.ok()
+                .headers(new HttpHeaders())
+                .contentLength(post.getPhoto().length)
+                .contentType(MediaType.parseMediaType("application/octet-stream"))
+                .body(new ByteArrayResource(post.getPhoto()));
+        return responseEntity;
+    }
 
     private void initEditorUiModel(Model model) {
         model.addAttribute("bodyStyles", bodyStyleService.findAll());
