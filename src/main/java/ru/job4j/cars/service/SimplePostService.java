@@ -72,7 +72,7 @@ public class SimplePostService implements PostService {
      * @throws IllegalArgumentException В случае, если пользователь попытается обновить чужое объявление
      */
     @Override
-    public boolean update(Post post, User user) {
+    public boolean update(Post post, User user) throws IllegalArgumentException {
         if (!user.equals(post.getUser())) {
             throw new IllegalArgumentException(String.format(
                     "Не удалось обновить объявление. Пользователь %s не является автором объявления %d",
@@ -81,6 +81,36 @@ public class SimplePostService implements PostService {
             ));
         }
         return postRepository.update(post);
+    }
+
+    /**
+     * Обновить объявление по ID
+     *
+     * @param id             ID объявления
+     * @param newDescription Новое описание объявления
+     * @param newPhoto       Новая фотография объявления
+     * @param newPrice       Новая цена в объявлении
+     * @param user           Пользователь, который пытается обновить объявление
+     * @return true в случае удачного обновления. Иначе -- false
+     * @throws IllegalArgumentException В случае, если пользователь попытается обновить чужое объявление
+     */
+    @Override
+    public boolean update(
+            int id,
+            String newDescription,
+            byte[] newPhoto,
+            int newPrice,
+            User user
+    ) throws IllegalArgumentException {
+        boolean success = false;
+        Optional<Post> postInDb = findById(id);
+        if (postInDb.isPresent()) {
+            postInDb.get().setDescription(newDescription);
+            postInDb.get().setPhoto(newPhoto);
+            postInDb.get().setPrice(newPrice);
+            success = update(postInDb.get(), user);
+        }
+        return success;
     }
 
     /**
@@ -106,7 +136,7 @@ public class SimplePostService implements PostService {
     /**
      * Удалить объявление по ID
      *
-     * @param id ID объявления
+     * @param id   ID объявления
      * @param user Пользователь, который пытается удалить объявление
      * @return true в случае удачного удаления. Иначе -- false
      * @throws IllegalArgumentException В случае, если пользователь попытается удалить чужое объявление

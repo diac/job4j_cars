@@ -96,6 +96,11 @@ public class PostController {
                     "errorMessage",
                     "Не удалось сохранить данные объявления"
             );
+        } else {
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Новое объявление успешно добавлено"
+            );
         }
         return "redirect:/my_posts";
     }
@@ -107,6 +112,51 @@ public class PostController {
         model.addAttribute("carDisplayNameHelper", Cars.displayNameHelper());
         model.addAttribute("dateFormat", DateFormat.defaultFormatter());
         return "posts/myPosts";
+    }
+
+    @GetMapping("/posts/{id}/edit")
+    public String edit(
+            @PathVariable("id") int id,
+            Model model,
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes
+    ) {
+        Optional<Post> post = postService.findById(id);
+        if (post.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Объявление не найдено");
+            return "redirect:/my_posts";
+        }
+        User user = (User) request.getSession().getAttribute("user");
+        if (!post.get().getUser().equals(user)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Ошибка доступа");
+            return "redirect:/my_posts";
+        }
+        model.addAttribute("post", post.get());
+        return "posts/edit";
+    }
+
+    @PatchMapping("/posts/{id}")
+    public String patch(
+            @ModelAttribute("post") Post post,
+            @PathVariable("id") int id,
+            @RequestParam("photoUpload") MultipartFile photoUpload,
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes
+    ) throws IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        try {
+            postService.update(id, post.getDescription(), photoUpload.getBytes(), post.getPrice(), user);
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Данные объявления обновлены"
+            );
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    String.format("Не удалось обновить объявление. Причина: %s", e.getMessage())
+            );
+        }
+        return "redirect:/my_posts";
     }
 
     @GetMapping("/posts/photo/{postId}")

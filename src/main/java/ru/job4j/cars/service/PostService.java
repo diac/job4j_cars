@@ -20,6 +20,8 @@ public interface PostService {
 
     boolean update(Post post, User user);
 
+    boolean update(int id, String newDescription, byte[] newPhoto, int newPrice, User user);
+
     boolean delete(Post post, User user);
 
     boolean delete(int id, User user);
