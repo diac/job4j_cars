@@ -85,7 +85,7 @@ public class HibernatePostRepositoryTest {
         User user2 = new User(0, value + "_2", value + "_2", new ArrayList<>());
         userRepository.add(user1);
         userRepository.add(user2);
-        Post post = new Post(0, value, LocalDateTime.now(), user1, null, true, car1, new ArrayList<>());
+        Post post = new Post(0, value, LocalDateTime.now(), user1, null, true, 0, car1, new ArrayList<>());
         postRepository.add(post);
         String newDescription = post.getDescription() + "_updated";
         post.setDescription(newDescription);
@@ -130,8 +130,8 @@ public class HibernatePostRepositoryTest {
         carRepository.add(car);
         User user = new User(0, value, value, new ArrayList<>());
         userRepository.add(user);
-        Post newPost = new Post(0, value + "_new_post", midnight, user, null, true, car, new ArrayList<>());
-        Post oldPost = new Post(0, value + "_old_post", twoDaysAgo, user, null, true, car, new ArrayList<>());
+        Post newPost = new Post(0, value + "_new_post", midnight, user, null, true, 0, car, new ArrayList<>());
+        Post oldPost = new Post(0, value + "_old_post", twoDaysAgo, user, null, true, 0, car, new ArrayList<>());
         postRepository.add(newPost);
         postRepository.add(oldPost);
         List<Post> recentPosts = postRepository.findAllInDateRange(yesterday, now);
@@ -151,8 +151,9 @@ public class HibernatePostRepositoryTest {
                 value + "_with_photo",
                 LocalDateTime.now(),
                 user,
-                new byte[] {1, 2, 3},
+                new byte[]{1, 2, 3},
                 true,
+                0,
                 car,
                 new ArrayList<>()
         );
@@ -163,6 +164,7 @@ public class HibernatePostRepositoryTest {
                 user,
                 null,
                 true,
+                0,
                 car,
                 new ArrayList<>()
         );
@@ -222,13 +224,13 @@ public class HibernatePostRepositoryTest {
         carRepository.add(car);
         User user = new User(0, value, value, new ArrayList<>());
         userRepository.add(user);
-        return new Post(0, value, LocalDateTime.now(), user, null, true, car, new ArrayList<>());
+        return new Post(0, value, LocalDateTime.now(), user, null, true, 0, car, new ArrayList<>());
     }
 
     private Post makePost(Car car) {
         String value = String.valueOf(System.currentTimeMillis());
         User user = new User(0, value, value, new ArrayList<>());
         userRepository.add(user);
-        return new Post(0, value, LocalDateTime.now(), user, null, true, car, new ArrayList<>());
+        return new Post(0, value, LocalDateTime.now(), user, null, true, 0, car, new ArrayList<>());
     }
 }

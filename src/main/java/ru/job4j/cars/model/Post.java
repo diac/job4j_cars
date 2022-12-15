@@ -34,6 +34,8 @@ public class Post {
 
     private boolean available;
 
+    private int price;
+
     @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
