@@ -48,6 +48,8 @@ public class SimplePostService implements PostService {
      */
     @Override
     public Optional<Post> add(Post post) {
+        post.setCreated(LocalDateTime.now());
+        post.setAvailable(true);
         return postRepository.add(post);
     }
 
