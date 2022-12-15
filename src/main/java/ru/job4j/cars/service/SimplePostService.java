@@ -31,6 +31,16 @@ public class SimplePostService implements PostService {
     }
 
     /**
+     * Получить список всех объявлений по ID пользователя
+     *
+     * @return Список объявлений. Пустой список, если ничего не найдено.
+     */
+    @Override
+    public List<Post> findAllByUserId(int userId) {
+        return postRepository.findAllByUserId(userId);
+    }
+
+    /**
      * Найти объявление по ID
      *
      * @return объявление
