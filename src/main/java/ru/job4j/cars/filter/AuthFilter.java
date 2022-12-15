@@ -7,9 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 @Component
 public class AuthFilter implements Filter {
+
+    private static final Pattern ALLOWED_STATIC = Pattern.compile(".+\\.(js|css)$");
 
     private static final Set<String> ALLOWED_MAPPINGS = Set.of("login", "/users/register");
 
@@ -33,6 +36,7 @@ public class AuthFilter implements Filter {
     }
 
     private boolean allowGuestAccess(String uri) {
-        return ALLOWED_MAPPINGS.stream().anyMatch(uri::endsWith);
+        return ALLOWED_MAPPINGS.stream().anyMatch(uri::endsWith)
+                || ALLOWED_STATIC.matcher(uri).matches();
     }
 }
