@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: htmlHead"></head>
+<body>
+<div class="container">
+    <nav th:replace="fragments/navbar :: navbarMain"></nav>
+    <h1>Новое объявление</h1>
+    <form
+            action="/posts"
+            method="POST"
+            enctype="multipart/form-data"
+    >
+        <div class="mb-2">
+            <h2>Объявление</h2>
+            <div class="form-group">
+                <label for="description">Описание</label>
+                <textarea id="description" class="form-control" name="description" required>
+                </textarea>
+            </div>
+            <div class="form-group">
+                <label for="photo">Фотография</label>
+                <input id="photo" type="file" class="form-control" name="photo">
+            </div>
+            <div class="form-group">
+                <label for="price">Цена</label>
+                <input id="price" type="number" min="0" step="1" class="form-control" name="price" required>
+            </div>
+        </div>
+        <div class="mb-2">
+            <h2>Информация об автомобиле</h2>
+            <div class="form-group">
+                <label for="carBrand">Марка</label>
+                <select id="carBrand" class="form-control form-select" name="carBrandId" required>
+                    <option
+                            th:each="brand : ${brands}"
+                            th:value="${brand.id}"
+                            th:text="${brand.name}"
+                    ></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="carModel">Модель</label>
+                <input id="carModel" class="form-control" type="text" name="carModel" required>
+            </div>
+            <div class="form-group">
+                <label for="carBodyStyle">Тип кузова</label>
+                <select id="carBodyStyle" class="form-control form-select" name="carBodyStyleId" required>
+                    <option
+                            th:each="bodyStyle : ${bodyStyles}"
+                            th:value="${bodyStyle.id}"
+                            th:text="${bodyStyle.name}"
+                    ></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="carExteriorColor">Цвет</label>
+                <select id="carExteriorColor" class="form-control form-select" name="carExteriorColorId" required>
+                    <option
+                            th:each="exteriorColor : ${exteriorColors}"
+                            th:value="${exteriorColor.id}"
+                            th:text="${exteriorColor.name}"
+                    ></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="carTransmissionType">Коробка передач</label>
+                <select id="carTransmissionType" class="form-control form-select" name="carTransmissionTypeId" required>
+                    <option
+                            th:each="transmissionType : ${transmissionTypes}"
+                            th:value="${transmissionType.id}"
+                            th:text="${transmissionType.name}"
+                    ></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="carDrivetrain">Привод</label>
+                <select id="carDrivetrain" class="form-control form-select" name="carDrivetrainId" required>
+                    <option
+                            th:each="drivetrain : ${drivetrains}"
+                            th:value="${drivetrain.id}"
+                            th:text="${drivetrain.name}"
+                    ></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="carSteeringWheelSide">Руль</label>
+                <select id="carSteeringWheelSide" class="form-control form-select" name="carSteeringWheelSide" required>
+                    <option
+                            th:each="steeringWheelSide : ${steeringWheelSides}"
+                            th:value="${steeringWheelSide}"
+                            th:text="${steeringWheelSide.getDisplayName()}"
+                    ></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="carEngineType">Тип двигателя</label>
+                <select id="carEngineType" class="form-control form-select" name="carEngineTypeId" required>
+                    <option
+                            th:each="engineType : ${engineTypes}"
+                            th:value="${engineType.id}"
+                            th:text="${engineType.name}"
+                    ></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="carEngineVolume">Объем двигателя</label>
+                <select id="carEngineVolume" class="form-control form-select" name="carEngineVolumeId" required>
+                    <option
+                            th:each="engineVolume : ${engineVolumes}"
+                            th:value="${engineVolume.id}"
+                            th:text="${engineVolume.name}"
+                    ></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="carHorsepower">Мощность двигателя (л/с)</label>
+                <input id="carHorsepower" type="number" min="1" step="1" class="form-control" name="carHorsepower" required>
+            </div>
+            <div class="form-group">
+                <label for="carProductionYear">Год выпуска</label>
+                <select id="carProductionYear" class="form-control form-select" name="carProductionYear" required>
+                    <option
+                            th:each="year : ${productionYearRange}"
+                            th:value="${year}"
+                            th:text="${year}"
+                    ></option>
+                </select>
+            </div>
+        </div>
+        <div class="controls">
+            <button type="submit" class="btn btn-success">Опубликовать</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
