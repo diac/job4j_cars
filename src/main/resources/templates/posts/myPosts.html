@@ -30,6 +30,7 @@
             <tr
                     th:each="post : ${posts}"
                     th:with="id = ${post.id}"
+                    th:classappend="${!post.available ? 'disabled' : ''}"
             >
                 <td>
                     <span th:text="${carDisplayNameHelper.apply(post.car)}"></span>
@@ -44,7 +45,10 @@
                     <span th:text="${dateFormat.apply(post.created)}"></span>
                 </td>
                 <td>
-                    <div class="btn-group">
+                    <div
+                            th:if="${post.available}"
+                            class="btn-group"
+                    >
                         <a th:href="@{/posts/__${id}__/edit}" class="btn btn-primary">Редактировать</a>
                         <a th:href="@{/posts/__${id}__/finalize}" class="btn btn-primary">Завершить сделку</a>
                         <a th:href="@{/posts/__${id}__/deactivate}" class="btn btn-primary">Деактивировать</a>

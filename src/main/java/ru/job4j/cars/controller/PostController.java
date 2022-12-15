@@ -48,21 +48,21 @@ public class PostController {
 
     @PostMapping("/posts/create")
     public String store(
-        @ModelAttribute("post") Post post,
-        @RequestParam("photoUpload") MultipartFile photoUpload,
-        @RequestParam("carBrandId") int carBrandId,
-        @RequestParam("carModel") String carModel,
-        @RequestParam("carBodyStyleId") int carBodyStyleId,
-        @RequestParam("carExteriorColorId") int carExteriorColorId,
-        @RequestParam("carTransmissionTypeId") int carTransmissionTypeId,
-        @RequestParam("carDrivetrainId") int carDrivetrainId,
-        @RequestParam("carSteeringWheelSide") SteeringWheelSide carSteeringWheelSide,
-        @RequestParam("carEngineTypeId") int carEngineTypeId,
-        @RequestParam("carEngineVolumeId") int carEngineVolumeId,
-        @RequestParam("carHorsepower") int carHorsepower,
-        @RequestParam("carProductionYear") int carProductionYear,
-        HttpServletRequest request,
-        RedirectAttributes redirectAttributes
+            @ModelAttribute("post") Post post,
+            @RequestParam("photoUpload") MultipartFile photoUpload,
+            @RequestParam("carBrandId") int carBrandId,
+            @RequestParam("carModel") String carModel,
+            @RequestParam("carBodyStyleId") int carBodyStyleId,
+            @RequestParam("carExteriorColorId") int carExteriorColorId,
+            @RequestParam("carTransmissionTypeId") int carTransmissionTypeId,
+            @RequestParam("carDrivetrainId") int carDrivetrainId,
+            @RequestParam("carSteeringWheelSide") SteeringWheelSide carSteeringWheelSide,
+            @RequestParam("carEngineTypeId") int carEngineTypeId,
+            @RequestParam("carEngineVolumeId") int carEngineVolumeId,
+            @RequestParam("carHorsepower") int carHorsepower,
+            @RequestParam("carProductionYear") int carProductionYear,
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes
     ) throws IOException {
         Car car = new Car(
                 0,
@@ -154,6 +154,49 @@ public class PostController {
             redirectAttributes.addFlashAttribute(
                     "errorMessage",
                     String.format("Не удалось обновить объявление. Причина: %s", e.getMessage())
+            );
+        }
+        return "redirect:/my_posts";
+    }
+
+    @GetMapping("/posts/{id}/deactivate")
+    public String deactivateView(
+            @PathVariable("id") int id,
+            Model model,
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes
+    ) {
+        Optional<Post> post = postService.findById(id);
+        if (post.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Объявление не найдено");
+            return "redirect:/my_posts";
+        }
+        User user = (User) request.getSession().getAttribute("user");
+        if (!post.get().getUser().equals(user)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Ошибка доступа");
+            return "redirect:/my_posts";
+        }
+        model.addAttribute("post", post.get());
+        return "posts/deactivate";
+    }
+
+    @PatchMapping("/posts/{id}/deactivate")
+    public String deactivate(
+            @PathVariable("id") int id,
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes
+    ) {
+        User user = (User) request.getSession().getAttribute("user");
+        try {
+            postService.deactivate(id, user);
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Объявление деактивировано"
+            );
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    String.format("Не удалось деактивировать объявление. Причина: %s", e.getMessage())
             );
         }
         return "redirect:/my_posts";
