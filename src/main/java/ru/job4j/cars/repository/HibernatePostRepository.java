@@ -19,6 +19,8 @@ public class HibernatePostRepository implements PostRepository {
 
     private static final String FIND_ALL_QUERY = "SELECT p FROM Post p";
 
+    private static final String FIND_ALL_BY_USER_ID_QUERY = "SELECT p FROM Post p WHERE p.user.id = :fUserId";
+
     private static final String FIND_BY_ID_QUERY = "SELECT p FROM Post p WHERE id = :fId";
 
     private static final String DELETE_QUERY = "DELETE FROM Post WHERE id = :fId";
@@ -40,6 +42,20 @@ public class HibernatePostRepository implements PostRepository {
     @Override
     public List<Post> findAll() {
         return crudRepository.query(FIND_ALL_QUERY, Post.class);
+    }
+
+    /**
+     * Получить все записи для модели Post из БД по ID пользователя
+     *
+     * @return Список объявлений. Пустой список, если ничего не найдено
+     */
+    @Override
+    public List<Post> findAllByUserId(int userId) {
+        return crudRepository.query(
+                FIND_ALL_BY_USER_ID_QUERY,
+                Post.class,
+                Map.of("fUserId", userId)
+        );
     }
 
     /**

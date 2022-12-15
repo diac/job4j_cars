@@ -11,6 +11,8 @@ public interface PostRepository {
 
     List<Post> findAll();
 
+    List<Post> findAllByUserId(int userId);
+
     Optional<Post> findById(int id);
 
     Optional<Post> add(Post post);

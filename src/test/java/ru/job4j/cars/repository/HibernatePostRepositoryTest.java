@@ -185,6 +185,15 @@ public class HibernatePostRepositoryTest {
         assertThat(posts.contains(post)).isTrue();
     }
 
+    @Test
+    public void whenFindAllByUserId() {
+        Post post = makePost();
+        postRepository.add(post);
+        int userId = post.getUser().getId();
+        List<Post> userPosts = postRepository.findAllByUserId(userId);
+        assertThat(userPosts.contains(post)).isTrue();
+    }
+
     private Car makeCar() {
         String value = String.valueOf(System.currentTimeMillis());
         BodyStyle bodyStyle = new BodyStyle(0, value);
