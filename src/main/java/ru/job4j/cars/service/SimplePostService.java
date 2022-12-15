@@ -186,4 +186,18 @@ public class SimplePostService implements PostService {
     public List<Post> findAllByCar(Car car) {
         return postRepository.findAllByCar(car);
     }
+
+    /**
+     * Деактивировать объявление по ID
+     *
+     * @param id ID объявления
+     * @param user Пользователь, который пытается деактивировать объявление
+     * @return true в случае удачной деактивации. Иначе -- false
+     */
+    @Override
+    public boolean deactivate(int id, User user) {
+        Post post = postRepository.findById(id).orElse(new Post());
+        post.setAvailable(false);
+        return update(post, user);
+    }
 }

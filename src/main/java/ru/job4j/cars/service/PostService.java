@@ -31,4 +31,6 @@ public interface PostService {
     List<Post> findAllWithPhoto();
 
     List<Post> findAllByCar(Car car);
+
+    boolean deactivate(int id, User user);
 }
