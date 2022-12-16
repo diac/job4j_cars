@@ -15,35 +15,40 @@
             class="alert alert-success"
     ></div>
     <h1>Объявления</h1>
-    <div class="posts-index">
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
-            <div
-                    th:each="post : ${posts}"
-                    class="post col md-2"
-            >
-                <a
-                        th:href="@{|/posts/${post.id}|}"
-                        class="post-link"
+    <div class="mb-2">
+        <div class="posts-index">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+                <div
+                        th:each="post : ${posts}"
+                        class="post col mb-2"
                 >
-                    <div class="img">
-                        <div class="img-crop img-crop-200">
-                            <div class="crop-wrapper">
-                                <img width="200" th:src="@{|/posts/photo/${post.id}|}">
+                    <a
+                            th:href="@{|/posts/${post.id}|}"
+                            class="post-link"
+                    >
+                        <div class="img">
+                            <div class="img-crop img-crop-200">
+                                <div class="crop-wrapper">
+                                    <img width="200" th:src="@{|/posts/photo/${post.id}|}">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="car-price">
-                        <span th:text="${post.price}"></span>&nbsp;&#8381;
-                    </div>
-                    <div class="car-title">
-                        <span th:text="${post.car.brand.name + ' ' + post.car.modelName}"></span>
-                    </div>
-                    <div class="car-production-year">
-                        <span th:text="${post.car.productionYear}"></span>
-                    </div>
-                </a>
+                        <div class="car-price">
+                            <span th:text="${post.price}"></span>&nbsp;&#8381;
+                        </div>
+                        <div class="car-title">
+                            <span th:text="${post.car.brand.name + ' ' + post.car.modelName}"></span>
+                        </div>
+                        <div class="car-production-year">
+                            <span th:text="${post.car.productionYear}"></span>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
+    </div>
+    <div class="controls">
+        <a href="/posts/new" class="btn btn-success">Добавить новое объявление</a>
     </div>
 </div>
 </body>
