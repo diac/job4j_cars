@@ -1,0 +1,155 @@
+<div th:fragment="searchFilters">
+    <form>
+        <div class="posts-search-filters mb-2">
+            <div class="row row-cols-1 row-cols-md-2">
+                <div class="col form-group mb-2">
+                    <label for="carBrand">Марка</label>
+                    <select id="carBrand" class="form-control form-select" name="carBrandId">
+                        <option value="">-- Любая --</option>
+                        <option
+                                th:each="brand : ${brands}"
+                                th:value="${brand.id}"
+                                th:text="${brand.name}"
+                        ></option>
+                    </select>
+                </div>
+                <div class="col form-group mb-2">
+                    <label for="carModel">Модель</label>
+                    <input id="carModel" class="form-control" type="text" name="carModel">
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                <div class="col">
+                    <div class="form-group mb-2">
+                        <label for="carBodyStyle">Тип кузова</label>
+                        <select id="carBodyStyle" class="form-control form-select" name="carBodyStyleId">
+                            <option value="">-- Любой --</option>
+                            <option
+                                    th:each="bodyStyle : ${bodyStyles}"
+                                    th:value="${bodyStyle.id}"
+                                    th:text="${bodyStyle.name}"
+                            ></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="carExteriorColor">Цвет</label>
+                        <select id="carExteriorColor" class="form-control form-select" name="carExteriorColorId">
+                            <option value="">-- Любой --</option>
+                            <option
+                                    th:each="exteriorColor : ${exteriorColors}"
+                                    th:value="${exteriorColor.id}"
+                                    th:text="${exteriorColor.name}"
+                            ></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="carTransmissionType">Коробка передач</label>
+                        <select id="carTransmissionType" class="form-control form-select" name="carTransmissionTypeId">
+                            <option value="">-- Любая --</option>
+                            <option
+                                    th:each="transmissionType : ${transmissionTypes}"
+                                    th:value="${transmissionType.id}"
+                                    th:text="${transmissionType.name}"
+                            ></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="carDrivetrain">Привод</label>
+                        <select id="carDrivetrain" class="form-control form-select" name="carDrivetrainId">
+                            <option value="">-- Любой --</option>
+                            <option
+                                    th:each="drivetrain : ${drivetrains}"
+                                    th:value="${drivetrain.id}"
+                                    th:text="${drivetrain.name}"
+                            ></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="carSteeringWheelSide">Руль</label>
+                        <select id="carSteeringWheelSide" class="form-control form-select" name="carSteeringWheelSide">
+                            <option value="">-- Любой --</option>
+                            <option
+                                    th:each="steeringWheelSide : ${steeringWheelSides}"
+                                    th:value="${steeringWheelSide}"
+                                    th:text="${steeringWheelSide.getDisplayName()}"
+                            ></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group mb-2">
+                        <label for="carEngineType">Тип двигателя</label>
+                        <select id="carEngineType" class="form-control form-select" name="carEngineTypeId">
+                            <option value="">-- Любой --</option>
+                            <option
+                                    th:each="engineType : ${engineTypes}"
+                                    th:value="${engineType.id}"
+                                    th:text="${engineType.name}"
+                            ></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="carEngineVolumeMin">Объем двигателя от</label>
+                        <select id="carEngineVolumeMin" class="form-control form-select" name="carEngineVolumeMinId">
+                            <option value="">-- Любой --</option>
+                            <option
+                                    th:each="engineVolume : ${engineVolumes}"
+                                    th:value="${engineVolume.id}"
+                                    th:text="${engineVolume.name}"
+                            ></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="carEngineVolumeMax">Объем двигателя до</label>
+                        <select id="carEngineVolumeMax" class="form-control form-select" name="carEngineVolumeMaxId">
+                            <option value="">-- Любой --</option>
+                            <option
+                                    th:each="engineVolume : ${engineVolumes}"
+                                    th:value="${engineVolume.id}"
+                                    th:text="${engineVolume.name}"
+                            ></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="carHorsepowerMin">Мощность двигателя от (л/с)</label>
+                        <input id="carHorsepowerMin" type="number" min="1" step="1" class="form-control"
+                               name="carHorsepowerMin">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="carHorsepowerMax">Мощность двигателя до (л/с)</label>
+                        <input id="carHorsepowerMax" type="number" min="1" step="1" class="form-control"
+                               name="carHorsepowerMax"
+                               >
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group mb-2">
+                        <label for="carProductionYearMin">Год выпуска от</label>
+                        <select id="carProductionYearMin" class="form-control form-select" name="carProductionYearMin">
+                            <option value="">-- Любой --</option>
+                            <option
+                                    th:each="year : ${productionYearRange}"
+                                    th:value="${year}"
+                                    th:text="${year}"
+                            ></option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="carProductionYearMax">Год выпуска до</label>
+                        <select id="carProductionYearMax" class="form-control form-select" name="carProductionYearMax">
+                            <option value="">-- Любой --</option>
+                            <option
+                                    th:each="year : ${productionYearRange}"
+                                    th:value="${year}"
+                                    th:text="${year}"
+                            ></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <button type="submit" class="btn btn-primary">Поиск</button>
+        </div>
+    </form>
+</div>

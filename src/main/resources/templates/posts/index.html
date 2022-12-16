@@ -15,6 +15,12 @@
             class="alert alert-success"
     ></div>
     <h1>Объявления</h1>
+    <hr>
+    <h3>Фильтры</h3>
+    <div class="mb-2">
+        <div th:replace="fragments/posts/searchFilters :: searchFilters"></div>
+    </div>
+    <hr>
     <div class="mb-2">
         <div class="posts-index">
             <div th:replace="fragments/posts/postsGrid :: postsGrid"></div>

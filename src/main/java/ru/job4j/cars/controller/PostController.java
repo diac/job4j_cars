@@ -41,13 +41,14 @@ public class PostController {
 
     @GetMapping("/")
     public String index(Model model) {
+        initUiModel(model);
         model.addAttribute("posts", postService.findAll());
         return "posts/index";
     }
 
     @GetMapping("/posts/new")
     public String addPost(Model model) {
-        initEditorUiModel(model);
+        initUiModel(model);
         model.addAttribute("post", new Post());
         return "posts/new";
     }
@@ -228,7 +229,7 @@ public class PostController {
         return responseEntity;
     }
 
-    private void initEditorUiModel(Model model) {
+    private void initUiModel(Model model) {
         model.addAttribute("bodyStyles", bodyStyleService.findAll());
         model.addAttribute("brands", brandService.findAll());
         model.addAttribute("drivetrains", drivetrainService.findAll());
