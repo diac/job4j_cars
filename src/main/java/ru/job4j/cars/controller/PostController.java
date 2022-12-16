@@ -21,6 +21,7 @@ import ru.job4j.cars.util.DateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.IntStream;
@@ -211,11 +212,16 @@ public class PostController {
 
     @GetMapping("/posts/photo/{postId}")
     public ResponseEntity<Resource> postPhoto(@PathVariable("postId") Integer postId) throws IOException {
-        ByteArrayResource imageBytes = new ByteArrayResource(
-                PostController.class.getClassLoader()
+        ByteArrayResource imageBytes;
+        try (
+                InputStream imgInputStream = PostController.class.getClassLoader()
                         .getResourceAsStream("static/img/no-image-available.png")
-                        .readAllBytes()
-        );
+        ) {
+            imageBytes = new ByteArrayResource(
+                    imgInputStream
+                            .readAllBytes()
+            );
+        }
         ResponseEntity<Resource> responseEntity;
         Post post = postService.findById(postId).orElse(new Post());
         if (post.getPhoto() != null) {
