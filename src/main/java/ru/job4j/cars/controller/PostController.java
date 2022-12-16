@@ -203,14 +203,22 @@ public class PostController {
     }
 
     @GetMapping("/posts/photo/{postId}")
-    public ResponseEntity<Resource> postPhoto(@PathVariable("postId") Integer postId) {
+    public ResponseEntity<Resource> postPhoto(@PathVariable("postId") Integer postId) throws IOException {
+        ByteArrayResource imageBytes = new ByteArrayResource(
+                PostController.class.getClassLoader()
+                        .getResourceAsStream("static/img/no-image-available.png")
+                        .readAllBytes()
+        );
         ResponseEntity<Resource> responseEntity;
         Post post = postService.findById(postId).orElse(new Post());
+        if (post.getPhoto() != null) {
+            imageBytes = new ByteArrayResource(post.getPhoto());
+        }
         responseEntity = ResponseEntity.ok()
                 .headers(new HttpHeaders())
-                .contentLength(post.getPhoto().length)
+                .contentLength(imageBytes.contentLength())
                 .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(new ByteArrayResource(post.getPhoto()));
+                .body(imageBytes);
         return responseEntity;
     }
 
