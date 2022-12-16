@@ -103,11 +103,11 @@
             </div>
             <div class="form-group">
                 <label for="carEngineVolume">Объем двигателя</label>
-                <select id="carEngineVolume" class="form-control form-select" name="carEngineVolumeId" required>
+                <select id="carEngineVolume" class="form-control form-select" name="carEngineVolume" required>
                     <option
-                            th:each="engineVolume : ${engineVolumes}"
-                            th:value="${engineVolume.id}"
-                            th:text="${engineVolume.name}"
+                            th:each="engineVolume : ${engineVolumeRange}"
+                            th:value="${engineVolume.key}"
+                            th:text="${engineVolume.value}"
                     ></option>
                 </select>
             </div>
