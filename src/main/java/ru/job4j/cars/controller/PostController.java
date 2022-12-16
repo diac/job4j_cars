@@ -30,13 +30,17 @@ import java.util.stream.IntStream;
 @AllArgsConstructor
 public class PostController {
 
+    private static final int ENGINE_VOLUME_MIN = 200;
+    private static final int ENGINE_VOLUME_MAX = 10_000;
+    private static final int ENGINE_VOLUME_STEP = 100;
+    private static final int ENGINE_VOLUME_DIVIDER = 1_000;
+
     private final PostService postService;
     private final CarService carService;
     private final BodyStyleService bodyStyleService;
     private final BrandService brandService;
     private final DrivetrainService drivetrainService;
     private final EngineTypeService engineTypeService;
-    private final EngineVolumeService engineVolumeService;
     private final ExteriorColorService exteriorColorService;
     private final TransmissionTypeService transmissionTypeService;
 
@@ -66,7 +70,7 @@ public class PostController {
             @RequestParam("carDrivetrainId") int carDrivetrainId,
             @RequestParam("carSteeringWheelSide") SteeringWheelSide carSteeringWheelSide,
             @RequestParam("carEngineTypeId") int carEngineTypeId,
-            @RequestParam("carEngineVolumeId") int carEngineVolumeId,
+            @RequestParam("carEngineVolume") int carEngineVolume,
             @RequestParam("carHorsepower") int carHorsepower,
             @RequestParam("carProductionYear") int carProductionYear,
             HttpServletRequest request,
@@ -81,7 +85,7 @@ public class PostController {
                 carSteeringWheelSide,
                 carModel,
                 engineTypeService.findById(carEngineTypeId).orElse(null),
-                engineVolumeService.findById(carEngineVolumeId).orElse(null),
+                carEngineVolume,
                 brandService.findById(carBrandId).orElse(null),
                 carHorsepower,
                 carProductionYear,
@@ -240,10 +244,14 @@ public class PostController {
         model.addAttribute("brands", brandService.findAll());
         model.addAttribute("drivetrains", drivetrainService.findAll());
         model.addAttribute("engineTypes", engineTypeService.findAll());
-        model.addAttribute("engineVolumes", engineVolumeService.findAll());
         model.addAttribute("exteriorColors", exteriorColorService.findAll());
         model.addAttribute("transmissionTypes", transmissionTypeService.findAll());
         model.addAttribute("steeringWheelSides", SteeringWheelSide.values());
+        final Map<Integer, String> engineVolumeRange = new HashMap<>();
+        for (int volume = ENGINE_VOLUME_MIN; volume <= ENGINE_VOLUME_MAX; volume += ENGINE_VOLUME_STEP) {
+            engineVolumeRange.put(volume, String.valueOf(volume / ENGINE_VOLUME_DIVIDER));
+        }
+        model.addAttribute("engineVolumeRange", engineVolumeRange);
         final int year = LocalDate.now().getYear();
         List<Integer> yearRange = new ArrayList<>(
                 IntStream.rangeClosed(year - 50, year)

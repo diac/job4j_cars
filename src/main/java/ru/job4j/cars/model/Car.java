@@ -50,9 +50,8 @@ public class Car {
     @JoinColumn(name = "engine_type_id")
     private EngineType engineType;
 
-    @ManyToOne
-    @JoinColumn(name = "engine_volume_id")
-    private EngineVolume engineVolume;
+    @Column(name = "engine_volume")
+    private int engineVolume;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")

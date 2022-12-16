@@ -28,7 +28,6 @@ import static org.assertj.core.api.Assertions.assertThat;
         HibernateTransmissionTypeRepository.class,
         HibernateDrivetrainRepository.class,
         HibernateEngineTypeRepository.class,
-        HibernateEngineVolumeRepository.class,
         HibernateBrandRepository.class
 })
 public class HibernatePostRepositoryTest {
@@ -56,9 +55,6 @@ public class HibernatePostRepositoryTest {
 
     @Autowired
     private EngineTypeRepository engineTypeRepository;
-
-    @Autowired
-    private EngineVolumeRepository engineVolumeRepository;
 
     @Autowired
     private BrandRepository brandRepository;
@@ -206,8 +202,6 @@ public class HibernatePostRepositoryTest {
         drivetrainRepository.add(drivetrain);
         EngineType engineType = new EngineType(0, value);
         engineTypeRepository.add(engineType);
-        EngineVolume engineVolume = new EngineVolume(0, value);
-        engineVolumeRepository.add(engineVolume);
         Brand brand = new Brand(0, value);
         brandRepository.add(brand);
         return new Car(
@@ -219,7 +213,7 @@ public class HibernatePostRepositoryTest {
                 SteeringWheelSide.LEFT,
                 value,
                 engineType,
-                engineVolume,
+                1000,
                 brand,
                 1000,
                 2020,

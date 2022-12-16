@@ -12,13 +12,13 @@ public final class Cars {
 
     public static Function<Car, String> displayNameHelper() {
         return car -> String.format(
-                "%s %s, %s, %s (%s, %s, %d л/с)",
+                "%s %s, %s, %s (%s, %d, %d л/с)",
                 car.getBrand().getName(),
                 car.getModelName(),
                 car.getExteriorColor().getName(),
                 car.getBodyStyle().getName(),
                 car.getEngineType().getName(),
-                car.getEngineVolume().getName(),
+                car.getEngineVolume(),
                 car.getHorsepower()
         );
     }
