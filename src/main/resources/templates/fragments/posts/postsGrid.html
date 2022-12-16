@@ -1,6 +1,6 @@
 <div
         th:fragment="postsGrid"
-        class="row row-cols-1 row-cols-sm-2 row-cols-md-4"
+        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4"
 >
     <div
             th:each="post : ${posts}"
@@ -11,10 +11,11 @@
                 class="post-link"
         >
             <div class="img">
-                <div class="img-crop img-crop-200">
-                    <div class="crop-wrapper">
-                        <img width="200" th:src="@{|/posts/photo/${post.id}|}">
-                    </div>
+                <div
+                        class="img-crop img-crop-200"
+                        th:style="'background-image:url(' + @{|/posts/photo/${post.id}|} + ');'"
+                >
+                    <img th:src="@{|/posts/photo/${post.id}|}">
                 </div>
             </div>
             <div class="car-price">
