@@ -247,9 +247,12 @@ public class PostController {
         model.addAttribute("exteriorColors", exteriorColorService.findAll());
         model.addAttribute("transmissionTypes", transmissionTypeService.findAll());
         model.addAttribute("steeringWheelSides", SteeringWheelSide.values());
-        final Map<Integer, String> engineVolumeRange = new HashMap<>();
+        final Map<Integer, String> engineVolumeRange = new TreeMap<>();
         for (int volume = ENGINE_VOLUME_MIN; volume <= ENGINE_VOLUME_MAX; volume += ENGINE_VOLUME_STEP) {
-            engineVolumeRange.put(volume, String.valueOf(volume / ENGINE_VOLUME_DIVIDER));
+            engineVolumeRange.put(
+                    volume,
+                    (float) volume / ENGINE_VOLUME_DIVIDER + " л."
+            );
         }
         model.addAttribute("engineVolumeRange", engineVolumeRange);
         final int year = LocalDate.now().getYear();

@@ -93,9 +93,9 @@
                         <select id="carEngineVolumeMin" class="form-control form-select" name="carEngineVolumeMinId">
                             <option value="">-- Любой --</option>
                             <option
-                                    th:each="engineVolume : ${engineVolumes}"
-                                    th:value="${engineVolume.id}"
-                                    th:text="${engineVolume.name}"
+                                    th:each="engineVolume : ${engineVolumeRange}"
+                                    th:value="${engineVolume.key}"
+                                    th:text="${engineVolume.value}"
                             ></option>
                         </select>
                     </div>
@@ -104,9 +104,9 @@
                         <select id="carEngineVolumeMax" class="form-control form-select" name="carEngineVolumeMaxId">
                             <option value="">-- Любой --</option>
                             <option
-                                    th:each="engineVolume : ${engineVolumes}"
-                                    th:value="${engineVolume.id}"
-                                    th:text="${engineVolume.name}"
+                                    th:each="engineVolume : ${engineVolumeRange}"
+                                    th:value="${engineVolume.key}"
+                                    th:text="${engineVolume.value}"
                             ></option>
                         </select>
                     </div>
