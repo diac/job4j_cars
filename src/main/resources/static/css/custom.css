@@ -1,3 +1,55 @@
 table tr.disabled {
     opacity: .6;
 }
+
+.img-crop {
+    overflow: hidden;
+    display: inline-block;
+}
+
+.img-crop .crop-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.img-crop.img-crop-200 {
+    width: 200px;
+    height: 200px;
+}
+
+.img-crop.img-crop-200 .crop-wrapper {
+    display: table-cell;
+    height: 200px;
+    vertical-align: middle;
+}
+
+.posts-index .img {
+    text-align: center;
+}
+
+.posts-index a.post-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.posts-index .post {
+    border: transparent 1px solid;
+}
+
+.posts-index .post:hover {
+    background-color: #f8f8f8;
+    border-color: #f0f0f0;
+}
+
+.posts-index .post .car-price {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.posts-index .post .car-title {
+    font-size: 18px;
+}
+
+.posts-index .post .car-production-year {
+    color: #888888;
+}

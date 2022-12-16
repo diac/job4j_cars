@@ -39,6 +39,12 @@ public class PostController {
     private final ExteriorColorService exteriorColorService;
     private final TransmissionTypeService transmissionTypeService;
 
+    @GetMapping("/")
+    public String index(Model model) {
+        model.addAttribute("posts", postService.findAll());
+        return "posts/index";
+    }
+
     @GetMapping("/posts/new")
     public String addPost(Model model) {
         initEditorUiModel(model);
