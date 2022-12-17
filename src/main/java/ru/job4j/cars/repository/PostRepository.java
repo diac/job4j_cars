@@ -2,6 +2,7 @@ package ru.job4j.cars.repository;
 
 import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
+import ru.job4j.cars.model.PostSearchParams;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,4 +29,6 @@ public interface PostRepository {
     List<Post> findAllWithPhoto();
 
     List<Post> findAllByCar(Car car);
+
+    List<Post> search(PostSearchParams postSearchParams);
 }

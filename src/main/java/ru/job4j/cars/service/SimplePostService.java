@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
+import ru.job4j.cars.model.PostSearchParams;
 import ru.job4j.cars.model.User;
 import ru.job4j.cars.repository.PostRepository;
 
@@ -190,7 +191,7 @@ public class SimplePostService implements PostService {
     /**
      * Деактивировать объявление по ID
      *
-     * @param id ID объявления
+     * @param id   ID объявления
      * @param user Пользователь, который пытается деактивировать объявление
      * @return true в случае удачной деактивации. Иначе -- false
      */
@@ -199,5 +200,16 @@ public class SimplePostService implements PostService {
         Post post = postRepository.findById(id).orElse(new Post());
         post.setAvailable(false);
         return update(post, user);
+    }
+
+    /**
+     * Найти все объявления, удовлетворяющие условиям поиска
+     *
+     * @param postSearchParams Объект, содержащий условия поиска
+     * @return Список объявлений. Пустой список, если ничего не найдено
+     */
+    @Override
+    public List<Post> search(PostSearchParams postSearchParams) {
+        return postRepository.search(postSearchParams);
     }
 }

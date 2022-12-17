@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.job4j.cars.enumeration.SteeringWheelSide;
 import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
+import ru.job4j.cars.model.PostSearchParams;
 import ru.job4j.cars.model.User;
 import ru.job4j.cars.service.*;
 import ru.job4j.cars.util.Cars;
@@ -45,9 +46,41 @@ public class PostController {
     private final TransmissionTypeService transmissionTypeService;
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(
+            Model model,
+            @RequestParam(name = "carBrandId", required = false) Integer carBrandId,
+            @RequestParam(name = "carModel", required = false) String carModel,
+            @RequestParam(name = "carBodyStyleId", required = false) Integer carBodyStyleId,
+            @RequestParam(name = "carExteriorColorId", required = false) Integer carExteriorColorId,
+            @RequestParam(name = "carTransmissionTypeId", required = false) Integer carTransmissionTypeId,
+            @RequestParam(name = "carDrivetrainId", required = false) Integer carDrivetrainId,
+            @RequestParam(name = "carSteeringWheelSide", required = false) SteeringWheelSide carSteeringWheelSide,
+            @RequestParam(name = "carEngineTypeId", required = false) Integer carEngineTypeId,
+            @RequestParam(name = "carEngineVolumeMin", required = false) Integer carEngineVolumeMin,
+            @RequestParam(name = "carEngineVolumeMax", required = false) Integer carEngineVolumeMax,
+            @RequestParam(name = "carHorsepowerMin", required = false) Integer carHorsepowerMin,
+            @RequestParam(name = "carHorsepowerMax", required = false) Integer carHorsepowerMax,
+            @RequestParam(name = "carProductionYearMin", required = false) Integer carProductionYearMin,
+            @RequestParam(name = "carProductionYearMax", required = false) Integer carProductionYearMax
+    ) {
         initUiModel(model);
-        model.addAttribute("posts", postService.findAll());
+        PostSearchParams postSearchParams = new PostSearchParams(
+                carBrandId,
+                carModel,
+                carBodyStyleId,
+                carExteriorColorId,
+                carTransmissionTypeId,
+                carDrivetrainId,
+                carSteeringWheelSide,
+                carEngineTypeId,
+                carEngineVolumeMin,
+                carEngineVolumeMax,
+                carHorsepowerMin,
+                carHorsepowerMax,
+                carProductionYearMin,
+                carProductionYearMax
+        );
+        model.addAttribute("posts", postService.search(postSearchParams));
         return "posts/index";
     }
 

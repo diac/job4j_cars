@@ -1,10 +1,16 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
+import ru.job4j.cars.model.PostSearchParams;
+import ru.job4j.cars.model.PostSearchResult;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +39,8 @@ public class HibernatePostRepository implements PostRepository {
     private static final String FIND_ALL_BY_CAR_ID_QUERY = "SELECT p FROM Post p WHERE car_id = :fCarId";
 
     private final CrudRepository crudRepository;
+
+    private final PostSearchResultRepository postSearchResultRepository;
 
     /**
      * Получить все записи для модели Post из БД
@@ -167,5 +175,28 @@ public class HibernatePostRepository implements PostRepository {
                 Post.class,
                 Map.of("fCarId", car.getId())
         );
+    }
+
+    /**
+     * Получить все объявления, удовлетворяющие условиям поиска
+     *
+     * @param postSearchParams Объект, содержащий условия поиска
+     * @return Список объявлений. Пустой список, если ничего не найдено
+     */
+    @Override
+    public List<Post> search(PostSearchParams postSearchParams) {
+        List<Integer> searchResultIds = postSearchResultRepository.search(postSearchParams)
+                .stream()
+                .map(PostSearchResult::getPostId)
+                .toList();
+        return crudRepository.tx(session -> {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Post> cq = cb.createQuery(Post.class);
+            Root<Post> postRoot = cq.from(Post.class);
+            cq.select(postRoot)
+                    .where(postRoot.get("id").in(searchResultIds));
+            Query<Post> query = session.createQuery(cq);
+            return query.getResultList();
+        });
     }
 }

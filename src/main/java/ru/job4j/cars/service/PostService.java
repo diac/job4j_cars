@@ -2,6 +2,7 @@ package ru.job4j.cars.service;
 
 import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
+import ru.job4j.cars.model.PostSearchParams;
 import ru.job4j.cars.model.User;
 
 import java.time.LocalDateTime;
@@ -33,4 +34,6 @@ public interface PostService {
     List<Post> findAllByCar(Car car);
 
     boolean deactivate(int id, User user);
+
+    List<Post> search(PostSearchParams postSearchParams);
 }
