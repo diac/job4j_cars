@@ -272,6 +272,21 @@ public class PostController {
         return responseEntity;
     }
 
+    @GetMapping("/posts/{id}")
+    private String view(
+            @PathVariable("id") int id,
+            Model model,
+            RedirectAttributes redirectAttributes
+    ) {
+        Optional<Post> post = postService.findById(id);
+        if (post.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Объявление не найдено");
+            return "redirect:/";
+        }
+        model.addAttribute("post", post.get());
+        return "posts/view";
+    }
+
     private void initUiModel(Model model) {
         model.addAttribute("bodyStyles", bodyStyleService.findAll());
         model.addAttribute("brands", brandService.findAll());

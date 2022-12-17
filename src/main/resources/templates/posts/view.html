@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: htmlHead"></head>
+<body>
+<div class="container">
+    <nav th:replace="fragments/navbar :: navbarMain"></nav>
+    <h1><span th:text="${post.car.brand.name}"></span>&nbsp<span th:text="${post.car.modelName}"></span></h1>
+    <h2><span th:text="${post.price}"></span>&nbsp;&#8381</h2>
+    <div class="row gx-5">
+        <div class="col-md-7">
+            <div
+                    class="img-crop img-crop-570px"
+                    th:style="'background-image:url(' + @{|/posts/photo/${post.id}|} + ');'"
+            >
+                <img th:src="@{|/posts/photo/${post.id}|}">
+            </div>
+        </div>
+        <div class="col-md-5">
+            <table class="table table-striped table-bordered table-hover">
+                <tbody>
+                <tr>
+                    <td>Тип кузова</td>
+                    <td>
+                        <span th:text="${post.car.bodyStyle.name}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Цвет</td>
+                    <td>
+                        <span th:text="${post.car.exteriorColor.name}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Тип коробки передач</td>
+                    <td>
+                        <span th:text="${post.car.transmissionType.name}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Привод</td>
+                    <td>
+                        <span th:text="${post.car.drivetrain.name}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Руль</td>
+                    <td>
+                        <span th:text="${post.car.steeringWheelSide.displayName}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Тип двигателя</td>
+                    <td>
+                        <span th:text="${post.car.engineType.name}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Объем двигателя</td>
+                    <td>
+                        <span th:text="${post.car.engineVolume}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Мощность двигателя</td>
+                    <td>
+                        <span th:text="${post.car.horsepower}"></span> л/с
+                    </td>
+                </tr>
+                <tr>
+                    <td>Год производства</td>
+                    <td>
+                        <span th:text="${post.car.productionYear}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="controls">
+                <a th:href="@{|/posts/${post.id}/participate|}" class="btn btn-success">Начать сделку</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
