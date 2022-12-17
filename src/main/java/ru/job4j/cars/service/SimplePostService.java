@@ -1,6 +1,7 @@
 package ru.job4j.cars.service;
 
 import lombok.AllArgsConstructor;
+import org.postgresql.util.PSQLException;
 import org.springframework.stereotype.Service;
 import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
@@ -8,6 +9,7 @@ import ru.job4j.cars.model.PostSearchParams;
 import ru.job4j.cars.model.User;
 import ru.job4j.cars.repository.PostRepository;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -211,5 +213,23 @@ public class SimplePostService implements PostService {
     @Override
     public List<Post> search(PostSearchParams postSearchParams) {
         return postRepository.search(postSearchParams);
+    }
+
+    /**
+     * Подписать пользователя на объявление
+     *
+     * @param postId ID объявления
+     * @param participantUser Пользователь
+     * @return true в случае успешного обновления данных. Иначе -- false
+     */
+    @Override
+    public boolean addParticipant(int postId, User participantUser) {
+        Optional<Post> postInDb = postRepository.findByIdWithParticipates(postId);
+        if (postInDb.isEmpty()) {
+            throw new IllegalArgumentException(String.format("Объявление %d не существует", postId));
+        }
+        Post post = postInDb.get();
+        post.getParticipates().add(participantUser);
+        return postRepository.update(post);
     }
 }

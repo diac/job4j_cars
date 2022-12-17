@@ -36,4 +36,6 @@ public interface PostService {
     boolean deactivate(int id, User user);
 
     List<Post> search(PostSearchParams postSearchParams);
+
+    boolean addParticipant(int postId, User user);
 }
