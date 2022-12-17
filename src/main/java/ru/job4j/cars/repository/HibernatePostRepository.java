@@ -11,6 +11,7 @@ import ru.job4j.cars.model.PostSearchResult;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,9 @@ public class HibernatePostRepository implements PostRepository {
     private static final String FIND_ALL_BY_USER_ID_QUERY = "SELECT p FROM Post p WHERE p.user.id = :fUserId";
 
     private static final String FIND_BY_ID_QUERY = "SELECT p FROM Post p WHERE id = :fId";
+
+    private static final String FIND_BY_ID_WITH_PARTICIPATES_QUERY
+            = "SELECT p FROM Post p LEFT JOIN FETCH p.participates WHERE p.id = :fId";
 
     private static final String DELETE_QUERY = "DELETE FROM Post WHERE id = :fId";
 
@@ -76,6 +80,21 @@ public class HibernatePostRepository implements PostRepository {
     public Optional<Post> findById(int id) {
         return crudRepository.optional(
                 FIND_BY_ID_QUERY,
+                Post.class,
+                Map.of("fId", id)
+        );
+    }
+
+    /**
+     * Получить один объект Post из БД по id, включая данные подписанных на объявление пользователей
+     *
+     * @param id Уникальный идентификатор объекта Post
+     * @return Optional для объекта Post, если в БД существует запись для переданного id. Иначе -- Optional.empty()
+     */
+    @Override
+    public Optional<Post> findByIdWithParticipates(int id) {
+        return crudRepository.optional(
+                FIND_BY_ID_WITH_PARTICIPATES_QUERY,
                 Post.class,
                 Map.of("fId", id)
         );
