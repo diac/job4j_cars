@@ -75,7 +75,12 @@
                 </tbody>
             </table>
             <div class="controls">
-                <a th:href="@{|/posts/${post.id}/participate|}" class="btn btn-success">Начать сделку</a>
+                <form
+                        method="post"
+                        th:action="@{|/posts/${post.id}/participate|}"
+                >
+                    <button type="submit" class="btn btn-success">Начать сделку</button>
+                </form>
             </div>
         </div>
     </div>

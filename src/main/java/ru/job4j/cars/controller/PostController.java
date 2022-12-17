@@ -287,6 +287,28 @@ public class PostController {
         return "posts/view";
     }
 
+    @PostMapping("/posts/{id}/participate")
+    private String participate(
+            @PathVariable("id") int id,
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes
+    ) {
+        User user = (User) request.getSession().getAttribute("user");
+        try {
+            postService.addParticipant(id, user);
+            redirectAttributes.addFlashAttribute(
+                    "successMessage",
+                    "Вы подали заявку на совершение сделки. Продавец свяжется с Вами"
+            );
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute(
+                    "errorMessage",
+                    "Не удалось начать сделку"
+            );
+        }
+        return "redirect:/";
+    }
+
     private void initUiModel(Model model) {
         model.addAttribute("bodyStyles", bodyStyleService.findAll());
         model.addAttribute("brands", brandService.findAll());
