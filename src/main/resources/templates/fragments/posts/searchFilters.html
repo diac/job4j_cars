@@ -90,7 +90,7 @@
                     </div>
                     <div class="form-group mb-2">
                         <label for="carEngineVolumeMin">Объем двигателя от</label>
-                        <select id="carEngineVolumeMin" class="form-control form-select" name="carEngineVolumeMinId">
+                        <select id="carEngineVolumeMin" class="form-control form-select" name="carEngineVolumeMin">
                             <option value="">-- Любой --</option>
                             <option
                                     th:each="engineVolume : ${engineVolumeRange}"
@@ -101,7 +101,7 @@
                     </div>
                     <div class="form-group mb-2">
                         <label for="carEngineVolumeMax">Объем двигателя до</label>
-                        <select id="carEngineVolumeMax" class="form-control form-select" name="carEngineVolumeMaxId">
+                        <select id="carEngineVolumeMax" class="form-control form-select" name="carEngineVolumeMax">
                             <option value="">-- Любой --</option>
                             <option
                                     th:each="engineVolume : ${engineVolumeRange}"
