@@ -3,19 +3,20 @@ package ru.job4j.cars.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Immutable;
 import ru.job4j.cars.enumeration.SteeringWheelSide;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
+@Immutable
 @Table(name = "post_search")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostSearchResult {
 
+    @Id
     @Column(name = "post_id")
     private int postId;
 
@@ -34,6 +35,7 @@ public class PostSearchResult {
     @Column(name = "drivetrain_id")
     private int drivetrainId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "steering_wheel_side")
     private SteeringWheelSide steeringWheelSide;
 
