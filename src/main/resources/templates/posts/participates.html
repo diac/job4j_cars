@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: htmlHead"></head>
+<body>
+<div class="container">
+    <nav th:replace="fragments/navbar :: navbarMain"></nav>
+    <h2>Пользователи, откликнувшиеся на объявление</h2>
+    <table class="table table-striped table-bordered table-hover">
+        <tbody>
+        <tr th:each="user : ${post.participates}">
+            <td>
+                <span th:text="${user.login}"></span>
+            </td>
+            <td>
+                <a th:href="@{|/posts/${post.id}/finalize/${user.id}|}">Оформить сделку</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <h3>Объявление</h3>
+    <div th:replace="fragments/posts/singlePostDetails :: singlePostDetails"></div>
+</div>
+</body>
+</html>

@@ -273,7 +273,7 @@ public class PostController {
     }
 
     @GetMapping("/posts/{id}")
-    private String view(
+    public String view(
             @PathVariable("id") int id,
             Model model,
             RedirectAttributes redirectAttributes
@@ -288,7 +288,7 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/participate")
-    private String participate(
+    public String participate(
             @PathVariable("id") int id,
             HttpServletRequest request,
             RedirectAttributes redirectAttributes
@@ -307,6 +307,17 @@ public class PostController {
             );
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/posts/{id}/participates")
+    public String participates(@PathVariable("id") int id, Model model, RedirectAttributes redirectAttributes) {
+        Optional<Post> post = postService.findByIdWithParticipates(id);
+        if (post.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Объявление не найдено");
+            return "redirect:/";
+        }
+        model.addAttribute("post", post.get());
+        return "/posts/participates";
     }
 
     private void initUiModel(Model model) {
