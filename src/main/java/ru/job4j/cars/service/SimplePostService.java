@@ -1,7 +1,6 @@
 package ru.job4j.cars.service;
 
 import lombok.AllArgsConstructor;
-import org.postgresql.util.PSQLException;
 import org.springframework.stereotype.Service;
 import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
@@ -9,7 +8,6 @@ import ru.job4j.cars.model.PostSearchParams;
 import ru.job4j.cars.model.User;
 import ru.job4j.cars.repository.PostRepository;
 
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +34,7 @@ public class SimplePostService implements PostService {
     /**
      * Получить список всех объявлений по ID пользователя
      *
+     * @param userId ID пользователя
      * @return Список объявлений. Пустой список, если ничего не найдено.
      */
     @Override
@@ -46,11 +45,23 @@ public class SimplePostService implements PostService {
     /**
      * Найти объявление по ID
      *
+     * @param id ID объявления
      * @return объявление
      */
     @Override
     public Optional<Post> findById(int id) {
         return postRepository.findById(id);
+    }
+
+    /**
+     * Найти объявление по ID, включая данные подписанных на объявление пользователей
+     *
+     * @param id ID объявления
+     * @return Список объявлений. Пустой список, если ничего не найдено.
+     */
+    @Override
+    public Optional<Post> findByIdWithParticipates(int id) {
+        return postRepository.findByIdWithParticipates(id);
     }
 
     /**
@@ -218,7 +229,7 @@ public class SimplePostService implements PostService {
     /**
      * Подписать пользователя на объявление
      *
-     * @param postId ID объявления
+     * @param postId          ID объявления
      * @param participantUser Пользователь
      * @return true в случае успешного обновления данных. Иначе -- false
      */

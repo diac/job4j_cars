@@ -17,6 +17,8 @@ public interface PostService {
 
     Optional<Post> findById(int id);
 
+    Optional<Post> findByIdWithParticipates(int id);
+
     Optional<Post> add(Post post);
 
     boolean update(Post post, User user);
