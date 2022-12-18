@@ -11,7 +11,6 @@ import ru.job4j.cars.model.PostSearchResult;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -212,8 +211,10 @@ public class HibernatePostRepository implements PostRepository {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<Post> cq = cb.createQuery(Post.class);
             Root<Post> postRoot = cq.from(Post.class);
-            cq.select(postRoot)
-                    .where(postRoot.get("id").in(searchResultIds));
+            cq.select(postRoot).where(cb.and(
+                    postRoot.get("id").in(searchResultIds),
+                    cb.equal(postRoot.get("available"), true)
+            ));
             Query<Post> query = session.createQuery(cq);
             return query.getResultList();
         });
