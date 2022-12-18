@@ -26,5 +26,6 @@
         <mapping class="ru.job4j.cars.model.EngineType" />
         <mapping class="ru.job4j.cars.model.Brand" />
         <mapping class="ru.job4j.cars.model.PostSearchResult" />
+        <mapping class="ru.job4j.cars.model.SalesOrder" />
     </session-factory>
 </hibernate-configuration>
