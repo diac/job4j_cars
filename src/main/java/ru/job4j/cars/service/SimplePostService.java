@@ -2,11 +2,9 @@ package ru.job4j.cars.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.job4j.cars.model.Car;
-import ru.job4j.cars.model.Post;
-import ru.job4j.cars.model.PostSearchParams;
-import ru.job4j.cars.model.User;
+import ru.job4j.cars.model.*;
 import ru.job4j.cars.repository.PostRepository;
+import ru.job4j.cars.repository.SalesOrderRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +18,10 @@ import java.util.Optional;
 public class SimplePostService implements PostService {
 
     private final PostRepository postRepository;
+
+    private final UserService userService;
+
+    private final SalesOrderRepository salesOrderRepository;
 
     /**
      * Получить список всех объявлений
@@ -242,5 +244,31 @@ public class SimplePostService implements PostService {
         Post post = postInDb.get();
         post.getParticipates().add(participantUser);
         return postRepository.update(post);
+    }
+
+    /**
+     * Завершить сделку в рамках объявления
+     *
+     * @param postId   ID объявления
+     * @param sellerId ID продавца
+     * @param buyerId  ID покупателя
+     * @return true в случае успешного обновления данных. Иначе -- false
+     * @throws IllegalStateException В случае, если сделка закрывается от лица пользователя, которому не принадлежит объявление
+     */
+    @Override
+    public boolean finalizeSalesOrder(int postId, int sellerId, int buyerId) throws IllegalStateException {
+        Post post = postRepository.findById(postId).orElse(new Post());
+        User seller = userService.findById(sellerId).orElse(new User());
+        User buyer = userService.findById(buyerId).orElse(new User());
+        if (!post.getUser().equals(seller)) {
+            throw new IllegalStateException(
+                    String.format("Ошибка доступа. Пользователь %d не является владельцем объявления %d", sellerId, postId)
+            );
+        }
+        post.setAvailable(false);
+        postRepository.update(post);
+        SalesOrder salesOrder = new SalesOrder(0, post, seller, buyer, LocalDateTime.now());
+        Optional<SalesOrder> salesOrderInDb = salesOrderRepository.add(salesOrder);
+        return salesOrderInDb.isPresent();
     }
 }

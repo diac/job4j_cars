@@ -320,6 +320,32 @@ public class PostController {
         return "/posts/participates";
     }
 
+    @PostMapping("/posts/finalize/")
+    public String finalizeSalesOrder(
+            @RequestParam("buyerId") int buyerId,
+            @RequestParam("postId") int postId,
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes
+    ) {
+        Optional<Post> post = postService.findById(postId);
+        if (post.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Объявление не найдено");
+            return "redirect:/my_posts";
+        }
+        User user = (User) request.getSession().getAttribute("user");
+        if (!post.get().getUser().equals(user)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Ошибка доступа");
+            return "redirect:/my_posts";
+        }
+        try {
+            postService.finalizeSalesOrder(postId, user.getId(), buyerId);
+            redirectAttributes.addFlashAttribute("successMessage", "Сделка завершена");
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        return "redirect:/my_posts";
+    }
+
     private void initUiModel(Model model) {
         model.addAttribute("bodyStyles", bodyStyleService.findAll());
         model.addAttribute("brands", brandService.findAll());

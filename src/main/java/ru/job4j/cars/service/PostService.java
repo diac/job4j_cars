@@ -40,4 +40,6 @@ public interface PostService {
     List<Post> search(PostSearchParams postSearchParams);
 
     boolean addParticipant(int postId, User user);
+
+    boolean finalizeSalesOrder(int postId, int sellerId, int buyerId);
 }
