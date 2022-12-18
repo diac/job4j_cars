@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.job4j.cars.model.User;
 import ru.job4j.cars.service.UserService;
@@ -27,8 +28,8 @@ public class UserController {
     }
 
     @PostMapping("/users/register")
-    public String register(@ModelAttribute User user) {
-        userService.register(user);
+    public String register(@ModelAttribute User user, @RequestParam("driverName") String driverName) {
+        userService.register(user, driverName);
         return "redirect:/";
     }
 

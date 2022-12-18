@@ -29,7 +29,7 @@ public class HibernateDriverRepositoryTest {
     @Test
     public void whenCreate() {
         String value = String.valueOf(System.currentTimeMillis());
-        User user = new User(0, value, value, new ArrayList<>());
+        User user = new User(0, value, value, new ArrayList<>(), null);
         userRepository.add(user);
         Driver driver = new Driver(0, value, user);
         driverRepository.add(driver);
@@ -40,7 +40,7 @@ public class HibernateDriverRepositoryTest {
     @Test
     public void whenUpdate() {
         String value = String.valueOf(System.currentTimeMillis());
-        User user = new User(0, value, value, new ArrayList<>());
+        User user = new User(0, value, value, new ArrayList<>(), null);
         userRepository.add(user);
         Driver driver = new Driver(0, value, user);
         driverRepository.add(driver);
@@ -55,7 +55,7 @@ public class HibernateDriverRepositoryTest {
     @Test
     public void whenDelete() {
         String value = String.valueOf(System.currentTimeMillis());
-        User user = new User(0, value, value, new ArrayList<>());
+        User user = new User(0, value, value, new ArrayList<>(), null);
         userRepository.add(user);
         Driver driver = new Driver(0, value, user);
         driverRepository.add(driver);
@@ -68,7 +68,7 @@ public class HibernateDriverRepositoryTest {
     @Test
     public void whenDeleteById() {
         String value = String.valueOf(System.currentTimeMillis());
-        User user = new User(0, value, value, new ArrayList<>());
+        User user = new User(0, value, value, new ArrayList<>(), null);
         userRepository.add(user);
         Driver driver = new Driver(0, value, user);
         driverRepository.add(driver);

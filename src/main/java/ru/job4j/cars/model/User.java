@@ -31,4 +31,8 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "post_id")}
     )
     private List<Post> participates = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", referencedColumnName = "user_id")
+    private Driver driver;
 }

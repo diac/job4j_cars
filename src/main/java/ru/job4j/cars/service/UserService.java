@@ -27,5 +27,5 @@ public interface UserService {
 
     Optional<User> findByLoginAndPassword(String login, String password);
 
-    Optional<User> register(User user);
+    Optional<User> register(User user, String driverName);
 }

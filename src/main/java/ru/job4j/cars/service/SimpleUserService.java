@@ -2,7 +2,9 @@ package ru.job4j.cars.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.job4j.cars.model.Driver;
 import ru.job4j.cars.model.User;
+import ru.job4j.cars.repository.DriverRepository;
 import ru.job4j.cars.repository.UserRepository;
 
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class SimpleUserService implements UserService {
 
     private final UserRepository userRepository;
+
+    private final DriverRepository driverRepository;
 
     /**
      * Получить список всех пользователей
@@ -133,7 +137,12 @@ public class SimpleUserService implements UserService {
      * @return Optional для объекта User, если удалось добавить этот объект в репозиторий. Иначе -- Optional.empty()
      */
     @Override
-    public Optional<User> register(User user) {
-        return userRepository.add(user);
+    public Optional<User> register(User user, String driverName) {
+        Optional<User> savedUser = userRepository.add(user);
+        if (savedUser.isPresent()) {
+            Driver driver = new Driver(0, driverName, user);
+            driverRepository.add(driver);
+        }
+        return savedUser;
     }
 }
