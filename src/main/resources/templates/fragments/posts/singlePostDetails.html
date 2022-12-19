@@ -1,73 +1,80 @@
 <div
-        class="row gx-5 mb-2"
         th:fragment="singlePostDetails"
 >
-    <div class="col-md-7">
-        <div
-                class="img-crop img-crop-438"
-                th:style="'background-image:url(' + @{|/posts/photo/${post.id}|} + ');'"
-        >
-            <img th:src="@{|/posts/photo/${post.id}|}">
+    <div class="row gx-5 mb-2">
+        <div class="col-md-7">
+            <div
+                    class="img-crop img-crop-438"
+                    th:style="'background-image:url(' + @{|/posts/photo/${post.id}|} + ');'"
+            >
+                <img th:src="@{|/posts/photo/${post.id}|}">
+            </div>
         </div>
-    </div>
-    <div class="col-md-5">
-        <table class="table table-striped table-bordered table-hover">
-            <tbody>
-            <tr>
-                <td>Тип кузова</td>
-                <td>
-                    <span th:text="${post.car.bodyStyle.name}"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>Цвет</td>
-                <td>
-                    <span th:text="${post.car.exteriorColor.name}"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>Тип коробки передач</td>
-                <td>
-                    <span th:text="${post.car.transmissionType.name}"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>Привод</td>
-                <td>
-                    <span th:text="${post.car.drivetrain.name}"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>Руль</td>
-                <td>
-                    <span th:text="${post.car.steeringWheelSide.displayName}"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>Тип двигателя</td>
-                <td>
-                    <span th:text="${post.car.engineType.name}"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>Объем двигателя</td>
-                <td>
-                    <span th:text="${post.car.engineVolume}"></span>
-                </td>
-            </tr>
-            <tr>
-                <td>Мощность двигателя</td>
-                <td>
-                    <span th:text="${post.car.horsepower}"></span> л/с
-                </td>
-            </tr>
-            <tr>
-                <td>Год производства</td>
-                <td>
-                    <span th:text="${post.car.productionYear}"></span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="col-md-5">
+            <table class="table table-striped table-bordered table-hover">
+                <tbody>
+                <tr>
+                    <td>Тип кузова</td>
+                    <td>
+                        <span th:text="${post.car.bodyStyle.name}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Цвет</td>
+                    <td>
+                        <span th:text="${post.car.exteriorColor.name}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Тип коробки передач</td>
+                    <td>
+                        <span th:text="${post.car.transmissionType.name}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Привод</td>
+                    <td>
+                        <span th:text="${post.car.drivetrain.name}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Руль</td>
+                    <td>
+                        <span th:text="${post.car.steeringWheelSide.displayName}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Тип двигателя</td>
+                    <td>
+                        <span th:text="${post.car.engineType.name}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Объем двигателя</td>
+                    <td>
+                        <span th:text="${post.car.engineVolume}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Мощность двигателя</td>
+                    <td>
+                        <span th:text="${post.car.horsepower}"></span> л/с
+                    </td>
+                </tr>
+                <tr>
+                    <td>Год производства</td>
+                    <td>
+                        <span th:text="${post.car.productionYear}"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Пробег</td>
+                    <td>
+                        <span th:text="${post.car.kilometrage}"></span> км
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
