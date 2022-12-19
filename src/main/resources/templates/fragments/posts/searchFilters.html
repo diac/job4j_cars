@@ -33,7 +33,7 @@
                            th:value="${postSearchParams.priceMax}">
                 </div>
             </div>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 expandable collapsed" style="display: none;">
                 <div class="col">
                     <div class="form-group mb-2">
                         <label for="carBodyStyle">Тип кузова</label>
@@ -177,6 +177,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="controls mb-2">
+            <button type="button" id="expandControl" class="btn btn-link px-0"><span class="caption">Показать</span> дополнительные параметры</button>
         </div>
         <div class="controls">
             <button type="submit" class="btn btn-primary">Поиск</button>
