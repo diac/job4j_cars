@@ -25,9 +25,10 @@ public class HibernatePostRepository implements PostRepository {
 
     private static final String FIND_ALL_QUERY = "SELECT p FROM Post p";
 
-    private static final String FIND_ALL_BY_USER_ID_QUERY = "SELECT p FROM Post p WHERE p.user.id = :fUserId";
+    private static final String FIND_ALL_BY_USER_ID_QUERY
+            = "SELECT p FROM Post p LEFT JOIN FETCH p.salesOrder WHERE p.user.id = :fUserId";
 
-    private static final String FIND_BY_ID_QUERY = "SELECT p FROM Post p WHERE id = :fId";
+    private static final String FIND_BY_ID_QUERY = "SELECT p FROM Post p LEFT JOIN FETCH p.salesOrder WHERE p.id = :fId";
 
     private static final String FIND_BY_ID_WITH_PARTICIPATES_QUERY
             = "SELECT p FROM Post p LEFT JOIN FETCH p.participates WHERE p.id = :fId";

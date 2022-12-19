@@ -53,6 +53,12 @@
                         <a th:href="@{/posts/__${id}__/participates}" class="btn btn-primary">Отклики</a>
                         <a th:href="@{/posts/__${id}__/deactivate}" class="btn btn-primary">Деактивировать</a>
                     </div>
+                    <div
+                            th:if="${post.salesOrder != null}"
+                    >
+                        Продано <span th:text="${dateFormat.apply(post.salesOrder.created)}"></span><br>
+                        Покупатель: <span th:text="${post.salesOrder.newOwner.login}"></span>
+                    </div>
                 </td>
             </tr>
             </tbody>
