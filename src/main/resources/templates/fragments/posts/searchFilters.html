@@ -1,5 +1,6 @@
 <div th:fragment="searchFilters">
-    <form>
+    <script src="/js/search.js"></script>
+    <form id="searchForm">
         <div class="posts-search-filters mb-2">
             <div class="row row-cols-1 row-cols-md-2">
                 <div class="col form-group mb-2">
@@ -10,22 +11,26 @@
                                 th:each="brand : ${brands}"
                                 th:value="${brand.id}"
                                 th:text="${brand.name}"
+                                th:selected="${postSearchParams.carBrandId == brand.id}"
                         ></option>
                     </select>
                 </div>
                 <div class="col form-group mb-2">
                     <label for="carModel">Модель</label>
-                    <input id="carModel" class="form-control" type="text" name="carModel">
+                    <input id="carModel" class="form-control" type="text" name="carModel"
+                           th:value="${postSearchParams.carModel}">
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-md-2">
                 <div class="col form-group mb-2">
                     <label for="priceMin">Цена от</label>
-                    <input id="priceMin" class="form-control" type="number" min="0" step="1" name="priceMin">
+                    <input id="priceMin" class="form-control" type="number" min="0" step="1" name="priceMin"
+                           th:value="${postSearchParams.priceMin}">
                 </div>
                 <div class="col form-group mb-2">
                     <label for="priceMax">Цена до</label>
-                    <input id="priceMax" class="form-control" type="number" min="0" step="1" name="priceMax">
+                    <input id="priceMax" class="form-control" type="number" min="0" step="1" name="priceMax"
+                           th:value="${postSearchParams.priceMax}">
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
@@ -38,6 +43,7 @@
                                     th:each="bodyStyle : ${bodyStyles}"
                                     th:value="${bodyStyle.id}"
                                     th:text="${bodyStyle.name}"
+                                    th:selected="${postSearchParams.carBodyStyleId == bodyStyle.id}"
                             ></option>
                         </select>
                     </div>
@@ -49,6 +55,7 @@
                                     th:each="exteriorColor : ${exteriorColors}"
                                     th:value="${exteriorColor.id}"
                                     th:text="${exteriorColor.name}"
+                                    th:selected="${postSearchParams.carExteriorColorId == exteriorColor.id}"
                             ></option>
                         </select>
                     </div>
@@ -60,6 +67,7 @@
                                     th:each="transmissionType : ${transmissionTypes}"
                                     th:value="${transmissionType.id}"
                                     th:text="${transmissionType.name}"
+                                    th:selected="${postSearchParams.carTransmissionTypeId == transmissionType.id}"
                             ></option>
                         </select>
                     </div>
@@ -71,6 +79,7 @@
                                     th:each="drivetrain : ${drivetrains}"
                                     th:value="${drivetrain.id}"
                                     th:text="${drivetrain.name}"
+                                    th:selected="${postSearchParams.carDrivetrainId == drivetrain.id}"
                             ></option>
                         </select>
                     </div>
@@ -82,6 +91,7 @@
                                     th:each="steeringWheelSide : ${steeringWheelSides}"
                                     th:value="${steeringWheelSide}"
                                     th:text="${steeringWheelSide.getDisplayName()}"
+                                    th:selected="${postSearchParams.carSteeringWheelSide == steeringWheelSide}"
                             ></option>
                         </select>
                     </div>
@@ -95,6 +105,7 @@
                                     th:each="engineType : ${engineTypes}"
                                     th:value="${engineType.id}"
                                     th:text="${engineType.name}"
+                                    th:selected="${postSearchParams.carEngineTypeId == engineType.id}"
                             ></option>
                         </select>
                     </div>
@@ -106,6 +117,7 @@
                                     th:each="engineVolume : ${engineVolumeRange}"
                                     th:value="${engineVolume.key}"
                                     th:text="${engineVolume.value}"
+                                    th:selected="${postSearchParams.carEngineVolumeMin == engineVolume.value}"
                             ></option>
                         </select>
                     </div>
@@ -117,19 +129,20 @@
                                     th:each="engineVolume : ${engineVolumeRange}"
                                     th:value="${engineVolume.key}"
                                     th:text="${engineVolume.value}"
+                                    th:selected="${postSearchParams.carEngineVolumeMax == engineVolume.value}"
                             ></option>
                         </select>
                     </div>
                     <div class="form-group mb-2">
                         <label for="carHorsepowerMin">Мощность двигателя от (л/с)</label>
                         <input id="carHorsepowerMin" type="number" min="1" step="1" class="form-control"
-                               name="carHorsepowerMin">
+                               name="carHorsepowerMin" th:value="${postSearchParams.carHorsepowerMin}">
                     </div>
                     <div class="form-group mb-2">
                         <label for="carHorsepowerMax">Мощность двигателя до (л/с)</label>
                         <input id="carHorsepowerMax" type="number" min="1" step="1" class="form-control"
-                               name="carHorsepowerMax"
-                               >
+                               name="carHorsepowerMax" th:value="${postSearchParams.carHorsepowerMax}"
+                        >
                     </div>
                 </div>
                 <div class="col">
@@ -141,6 +154,7 @@
                                     th:each="year : ${productionYearRange}"
                                     th:value="${year}"
                                     th:text="${year}"
+                                    th:selected="${postSearchParams.carProductionYearMin == year}"
                             ></option>
                         </select>
                     </div>
@@ -152,12 +166,14 @@
                                     th:each="year : ${productionYearRange}"
                                     th:value="${year}"
                                     th:text="${year}"
+                                    th:selected="${postSearchParams.carProductionYearMax == year}"
                             ></option>
                         </select>
                     </div>
                     <div class="form-group mb-2">
                         <label for="carKilometrageMax">Пробег до</label>
-                        <input id="carKilometrageMax" class="form-control" type="number" min="0" step="1" name="carKilometrageMax">
+                        <input id="carKilometrageMax" class="form-control" type="number" min="0" step="1"
+                               name="carKilometrageMax" th:value="${postSearchParams.carKilometrageMax}">
                     </div>
                 </div>
             </div>

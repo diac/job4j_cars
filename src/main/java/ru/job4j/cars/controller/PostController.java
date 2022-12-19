@@ -87,6 +87,7 @@ public class PostController {
                 carKilometrageMax
         );
         model.addAttribute("posts", postService.search(postSearchParams));
+        model.addAttribute("postSearchParams", postSearchParams);
         return "posts/index";
     }
 
