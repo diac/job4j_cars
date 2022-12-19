@@ -226,6 +226,7 @@ public class HibernatePostRepositoryTest {
                 brand,
                 1000,
                 2020,
+                0,
                 new HashSet<>()
         );
     }

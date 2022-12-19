@@ -122,6 +122,7 @@ public class PostController {
                 brandService.findById(carBrandId).orElse(null),
                 carHorsepower,
                 carProductionYear,
+                0,
                 new HashSet<>()
         );
         Optional<Car> carInDb = carService.add(car);

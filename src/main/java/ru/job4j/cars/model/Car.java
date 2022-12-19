@@ -63,6 +63,9 @@ public class Car {
     @Column(name = "production_year")
     private int productionYear;
 
+    @Column(name = "kilometrage")
+    private int kilometrage;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "history_owner",

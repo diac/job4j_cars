@@ -137,6 +137,7 @@ public class HibernateCarRepositoryTest {
                 brand,
                 1000,
                 2020,
+                0,
                 new HashSet<>()
         );
     }
