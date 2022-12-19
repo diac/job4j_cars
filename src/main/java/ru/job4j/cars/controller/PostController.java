@@ -106,6 +106,7 @@ public class PostController {
             @RequestParam("carEngineVolume") int carEngineVolume,
             @RequestParam("carHorsepower") int carHorsepower,
             @RequestParam("carProductionYear") int carProductionYear,
+            @RequestParam("carKilometrage") int carKilometrage,
             HttpServletRequest request,
             RedirectAttributes redirectAttributes
     ) throws IOException {
@@ -122,7 +123,7 @@ public class PostController {
                 brandService.findById(carBrandId).orElse(null),
                 carHorsepower,
                 carProductionYear,
-                0,
+                carKilometrage,
                 new HashSet<>()
         );
         Optional<Car> carInDb = carService.add(car);
