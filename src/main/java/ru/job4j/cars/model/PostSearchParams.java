@@ -10,6 +10,8 @@ import ru.job4j.cars.enumeration.SteeringWheelSide;
 @NoArgsConstructor
 public class PostSearchParams {
 
+    private Integer priceMin;
+    private Integer priceMax;
     private Integer carBrandId;
     private String carModel;
     private Integer carBodyStyleId;
@@ -24,4 +26,5 @@ public class PostSearchParams {
     private Integer carHorsepowerMax;
     private Integer carProductionYearMin;
     private Integer carProductionYearMax;
+    private Integer carKilometrageMax;
 }

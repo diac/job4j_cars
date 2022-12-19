@@ -18,6 +18,16 @@
                     <input id="carModel" class="form-control" type="text" name="carModel">
                 </div>
             </div>
+            <div class="row row-cols-1 row-cols-md-2">
+                <div class="col form-group mb-2">
+                    <label for="priceMin">Цена от</label>
+                    <input id="priceMin" class="form-control" type="number" min="0" step="1" name="priceMin">
+                </div>
+                <div class="col form-group mb-2">
+                    <label for="priceMax">Цена до</label>
+                    <input id="priceMax" class="form-control" type="number" min="0" step="1" name="priceMax">
+                </div>
+            </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
                 <div class="col">
                     <div class="form-group mb-2">
@@ -144,6 +154,10 @@
                                     th:text="${year}"
                             ></option>
                         </select>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="carKilometrageMax">Пробег до</label>
+                        <input id="carKilometrageMax" class="form-control" type="number" min="0" step="1" name="carKilometrageMax">
                     </div>
                 </div>
             </div>

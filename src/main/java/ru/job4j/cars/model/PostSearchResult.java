@@ -20,6 +20,9 @@ public class PostSearchResult {
     @Column(name = "post_id")
     private int postId;
 
+    @Column(name = "price")
+    private int price;
+
     @Column(name = "car_id")
     private int carId;
 
@@ -56,4 +59,7 @@ public class PostSearchResult {
 
     @Column(name = "engine_volume")
     private int engineVolume;
+
+    @Column(name = "kilometrage")
+    private int kilometrage;
 }

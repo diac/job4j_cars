@@ -46,6 +46,12 @@ public class HibernatePostSearchResultRepository implements PostSearchResultRepo
             Root<PostSearchResult> root
     ) {
         List<Predicate> predicates = new ArrayList<>();
+        if (postSearchParams.getPriceMin() != null) {
+            predicates.add(cb.ge(root.get("price"), postSearchParams.getPriceMin()));
+        }
+        if (postSearchParams.getPriceMax() != null) {
+            predicates.add(cb.le(root.get("price"), postSearchParams.getPriceMax()));
+        }
         if (postSearchParams.getCarBodyStyleId() != null) {
             predicates.add(cb.equal(root.get("bodyStyleId"), postSearchParams.getCarBodyStyleId()));
         }
@@ -92,6 +98,9 @@ public class HibernatePostSearchResultRepository implements PostSearchResultRepo
         }
         if (postSearchParams.getCarEngineVolumeMax() != null) {
             predicates.add(cb.le(root.get("engineVolume"), postSearchParams.getCarEngineVolumeMax()));
+        }
+        if (postSearchParams.getCarKilometrageMax() != null) {
+            predicates.add(cb.le(root.get("kilometrage"), postSearchParams.getCarKilometrageMax()));
         }
         return predicates;
     }

@@ -49,6 +49,8 @@ public class PostController {
     public String index(
             Model model,
             @RequestParam(name = "carBrandId", required = false) Integer carBrandId,
+            @RequestParam(name = "priceMin", required = false) Integer priceMin,
+            @RequestParam(name = "priceMax", required = false) Integer priceMax,
             @RequestParam(name = "carModel", required = false) String carModel,
             @RequestParam(name = "carBodyStyleId", required = false) Integer carBodyStyleId,
             @RequestParam(name = "carExteriorColorId", required = false) Integer carExteriorColorId,
@@ -61,10 +63,13 @@ public class PostController {
             @RequestParam(name = "carHorsepowerMin", required = false) Integer carHorsepowerMin,
             @RequestParam(name = "carHorsepowerMax", required = false) Integer carHorsepowerMax,
             @RequestParam(name = "carProductionYearMin", required = false) Integer carProductionYearMin,
-            @RequestParam(name = "carProductionYearMax", required = false) Integer carProductionYearMax
+            @RequestParam(name = "carProductionYearMax", required = false) Integer carProductionYearMax,
+            @RequestParam(name = "carKilometrageMax", required = false) Integer carKilometrageMax
     ) {
         initUiModel(model);
         PostSearchParams postSearchParams = new PostSearchParams(
+                priceMin,
+                priceMax,
                 carBrandId,
                 carModel,
                 carBodyStyleId,
@@ -78,7 +83,8 @@ public class PostController {
                 carHorsepowerMin,
                 carHorsepowerMax,
                 carProductionYearMin,
-                carProductionYearMax
+                carProductionYearMax,
+                carKilometrageMax
         );
         model.addAttribute("posts", postService.search(postSearchParams));
         return "posts/index";
