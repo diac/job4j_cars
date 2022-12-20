@@ -5,3 +5,6 @@ CREATE TABLE auto_user (
 );
 
 COMMENT ON TABLE auto_user IS 'Пользователи сайта';
+COMMENT ON COLUMN auto_user.id IS 'Идентификатор пользователя';
+COMMENT ON COLUMN auto_user.login IS 'Логин пользователя в системе';
+COMMENT ON COLUMN auto_user.password IS 'Пароль пользователя в системе';

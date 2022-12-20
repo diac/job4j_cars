@@ -4,3 +4,5 @@ CREATE TABLE drivetrain(
 );
 
 COMMENT ON TABLE drivetrain IS 'Тип привода';
+COMMENT ON COLUMN drivetrain.id IS 'Идентификатор типа привода';
+COMMENT ON COLUMN drivetrain.name IS 'Имя типа привода';

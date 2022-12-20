@@ -1,1 +1,3 @@
 ALTER TABLE car ADD COLUMN kilometrage INTEGER NOT NULL DEFAULT 0;
+
+COMMENT ON COLUMN car.kilometrage IS 'Пробег';

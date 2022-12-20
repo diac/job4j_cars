@@ -4,3 +4,5 @@ CREATE TABLE engine_volume(
 );
 
 COMMENT ON TABLE engine_volume IS 'Объем двигателя';
+COMMENT ON COLUMN engine_volume.id IS 'Идентификатор объема двигателя';
+COMMENT ON COLUMN engine_volume.name IS 'Имя объема двигателя';
