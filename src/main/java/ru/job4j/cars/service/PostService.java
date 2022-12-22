@@ -2,7 +2,7 @@ package ru.job4j.cars.service;
 
 import ru.job4j.cars.model.Car;
 import ru.job4j.cars.model.Post;
-import ru.job4j.cars.model.PostSearchParams;
+import ru.job4j.cars.dto.PostSearchParams;
 import ru.job4j.cars.model.User;
 
 import java.time.LocalDateTime;

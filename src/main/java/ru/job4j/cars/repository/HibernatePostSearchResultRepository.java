@@ -3,7 +3,7 @@ package ru.job4j.cars.repository;
 import lombok.AllArgsConstructor;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-import ru.job4j.cars.model.PostSearchParams;
+import ru.job4j.cars.dto.PostSearchParams;
 import ru.job4j.cars.model.PostSearchResult;
 
 import javax.persistence.criteria.CriteriaBuilder;

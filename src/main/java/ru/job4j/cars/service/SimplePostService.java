@@ -2,6 +2,7 @@ package ru.job4j.cars.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.job4j.cars.dto.PostSearchParams;
 import ru.job4j.cars.model.*;
 import ru.job4j.cars.repository.PostRepository;
 import ru.job4j.cars.repository.SalesOrderRepository;

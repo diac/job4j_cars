@@ -1,4 +1,4 @@
-package ru.job4j.cars.model;
+package ru.job4j.cars.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
