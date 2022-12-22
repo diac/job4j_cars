@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Репозиторий, отвечающий за сериализацию/десериализацию объектов модели Post в БД
+ * Репозиторий, отвечающий за реализацию операций CRUD для объектов Post в БД
  */
 @Repository
 @AllArgsConstructor

@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Репозиторий, отвечающий за сериализацию/десериализацию объектов модели Car в БД
+ * Репозиторий, отвечающий за реализацию операций CRUD для объектов Car в БД
  */
 @Repository
 @AllArgsConstructor

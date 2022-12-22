@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Репозиторий, отвечающий за реализацию операций CRUD для объектов User в БД
+ */
 @Repository
 @AllArgsConstructor
 public class HibernateUserRepository implements UserRepository {

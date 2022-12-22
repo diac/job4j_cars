@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Репозиторий, отвечающий за сериализацию/десериализацию объектов модели ExteriorColor в БД
+ * Репозиторий, отвечающий за реализацию операций CRUD для объектов ExteriorColor в БД
  */
 @Repository
 @AllArgsConstructor

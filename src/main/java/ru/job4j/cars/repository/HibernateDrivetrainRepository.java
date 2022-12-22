@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Репозиторий, отвечающий за сериализацию/десериализацию объектов модели Drivetrain в БД
+ * Репозиторий, отвечающий за реализацию операций CRUD для объектов Drivetrain в БД
  */
 @Repository
 @AllArgsConstructor

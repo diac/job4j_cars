@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Репозиторий, отвечающий за сериализацию/десериализацию объектов модели BodyStyle в БД
+ * Репозиторий, отвечающий за реализацию операций CRUD для объектов BodyStyle в БД
  */
 @Repository
 @AllArgsConstructor
